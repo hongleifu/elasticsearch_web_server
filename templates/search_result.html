@@ -1,0 +1,50 @@
+{% extends 'commons/_proto.html' %}
+
+{% block body %}
+		<div style="padding-top:100px; text-align:center; height:100%; background:#FFF ">
+		    <input type="text" id="search_input" value={{query}} style="width:300px" onkeypress="if(event.keyCode==13) {search()}">
+                    <div style="text-align:center; width:50%; margin-left: auto; margin-right: auto;text-align:left;">
+                                    {% for row in model%}
+                                         <div>
+                                             <!--<p>{{row['_source']['title']}}</p>-->
+                                            <font size=3> <a style="color:inherit;text-decoration:underline" href="{{row['_source']['url']}}"><B>{{row['_source']['title']|safe}}</B></a> </font>
+                                         </div>
+                                         <div style="height:40px;overflow:hidden;text-overflow:ellipsis">
+                                             <a style="color:inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+                                         </div>
+                                         <div>
+                                         <p>             </p>
+                                         </div>
+                                         <div>
+                                         <p>             </p>
+                                         </div>
+                                    {%endfor%}
+                    </div>
+		</div>
+                <script type="text/javascript">
+                     function post(URL, PARAMS) {        
+                         var temp = document.createElement("form");        
+                         temp.action = URL;        
+                         temp.method = "post";        
+                         temp.style.display = "none";        
+                         for (var x in PARAMS) {        
+                             var opt = document.createElement("textarea");        
+                             opt.name = x;        
+                             opt.value = PARAMS[x];        
+                             temp.appendChild(opt);        
+                         }     
+                         document.body.appendChild(temp);        
+                         temp.submit();        
+                         return temp;        
+                     }     
+                     function search() {
+                         post("/search",{"query":document.getElementById("search_input").value});
+                     }
+                    // function pre_page(page_no) {
+                    //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
+                    // }
+                    // function next_page(page_no) {
+                    //     window.location="/search_result?page_no="+({{page_no}}+1).toString();
+                    // }
+                </script>
+{% endblock %}
