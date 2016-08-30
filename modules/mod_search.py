@@ -6,6 +6,13 @@ import urllib
 import urllib2 
 import httplib 
 sys.path.append(sys.path[0])
+
+
+def get_search_service_base_url():
+    return 'localhost:9200/finance/_search?pretty'
+def get_recommend_service_base_url():
+    return "http://127.0.0.1:5200/recommend?"
+
 def service(request):
     page_no=request.form.get("page_no",1)
     num_perpage=request.form.get("num_perpage",5)
@@ -18,7 +25,7 @@ def service(request):
     try:
         c=pycurl.Curl()
         buf=cStringIO.StringIO()
-        c.setopt(c.URL,'localhost:9200/finance/_search?pretty')
+        c.setopt(c.URL,get_search_service_base_url())
         query_condition = '{"query": { "match": { "title": '+ '"'+query+'"'+' } },"size":15}'
         c.setopt(c.POSTFIELDS,query_condition)
         c.setopt(c.WRITEFUNCTION, buf.write)
@@ -38,7 +45,7 @@ def service(request):
     #get recommend result of key word  from recommend engine
     param_dict={}
     param_dict['query']=query
-    url="http://127.0.0.1:5200/recommend?"+urllib.urlencode(param_dict)
+    url=get_recommend_service_base_url()+urllib.urlencode(param_dict)
     recommend=[]
     try:
         req=urllib2.Request(url)
@@ -53,15 +60,3 @@ def service(request):
 
     #return all result
     return return_value,query.decode('utf8'), recommend
-#    model = []
-#    for data in object_list:
-#        data_dict = {}
-#        data_dict["id"] = data.id
-#        data_dict["taskname"] = data.taskname
-#        data_dict["tasktype"] = data.tasktype
-#        data_dict["host"] = data.host
-#        data_dict["dir"] = data.dir
-#        data_dict["taskcontent"] = data.taskcontent
-#        data_dict["taskstate"] = data.state
-#        model.append(data_dict)
-#    return model,page_no,len(model),num_perpage
