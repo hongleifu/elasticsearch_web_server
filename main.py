@@ -41,11 +41,11 @@ def page_not_found(e):
 @app.route('/search', methods=['GET', 'POST'])
 #@interceptor(login_required=True)
 def search():
-	model,query = mod_search.service(request)
+	model,query,recommend_keyword = mod_search.service(request)
 	#return render_template('search_result.html', model=model)
 #        print model
 #	print render_template('search_result.html', model=model,query=query)
-	return render_template('search_result.html', model=model,query=query)
+	return render_template('search_result.html', model=model,query=query,recommend_keyword=recommend_keyword)
 
 
 
