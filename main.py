@@ -54,7 +54,7 @@ def login():
   elif request.method == 'POST':
     model,recommend_content=mod_login.service(request)
     if model['result'] == True:
-      return redirect(url_for('index'))
+      return render_template('index.html', recommend_content=recommend_content)
     else:
       return render_template('error.html',msg='login error')
       #return render_template('index.html',model=model,recommend=recommend_content)

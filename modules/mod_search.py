@@ -45,6 +45,7 @@ def service(request):
     #get recommend result of key word  from recommend engine
     param_dict={}
     param_dict['query']=query
+    param_dict['type']='key_word'
     url=get_recommend_service_base_url()+urllib.urlencode(param_dict)
     recommend=[]
     try:

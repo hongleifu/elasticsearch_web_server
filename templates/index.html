@@ -6,8 +6,29 @@
     	{{ macro_body_navbar() }}
     </div>
 
-    <div style="padding-top:100px; text-align:center; height:900px; background:#FFF ">
+    <div style="padding-top:100px; text-align:center; height:100px; background:#FFF ">
         <input type="text" id="search_input" placeholder=""  style="width:300px" onkeypress="if(event.keyCode==13) {search()}"> 
+    </div>
+    <div style="text-align:center; height:1200px; background:#FFF ">
+    {%if recommend_content %}
+         <p>推荐阅读</p>
+         <div id="search_result" style="width:50%; margin-left: auto; margin-right: auto;text-align:left;">
+             {% for row in recommend_content%}
+                  <div>
+                     <font size=3 color=blue> <a style="color:inherit;text-decoration:underline" href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a> </font>
+                  </div>
+                  <div style="height:40px;overflow:hidden;text-overflow:ellipsis">
+                      <a style="color:inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+                  </div>
+                  <div>
+                  <p>             </p>
+                  </div>
+                  <div>
+                  <p>             </p>
+                  </div>
+             {%endfor%}
+         </div>
+    {%endif %}
     </div>
 
     <script type="text/javascript">
