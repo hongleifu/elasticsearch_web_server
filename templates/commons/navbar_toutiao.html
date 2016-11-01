@@ -2,20 +2,46 @@
 
 {% macro macro_body_navbar() -%}
   <div class="navbar-inner-for-search">
-    <ul class="nav pull-left">
+    <ul class="nav pull-left" style="margin:0">
       <li id="fat-menu" class="dropdown">
         {% if session.get('userinfo') %}
           <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<i class="icon-caret-down"></i></a>
           <ul class="dropdown-menu">
-              <li><a tabindex="1" href="/logout">登出</a></li>
+              <li><a tabindex="1" href="javascript:to_log_out()">登出</a></li>
           </ul>
         {% else %}
            <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i><i class="icon-caret-down"></i></a>
            <ul class="dropdown-menu" >
-               <li><a tabindex="-1" href="/login">登录</a></li>
+               <li><a tabindex="-1" href="javascript:to_log_in()">登录</a></li>
+               <li><a tabindex="2" href="javascript:to_regist()">注册</a></li>
            </ul>
         {% endif %}
       </li>
     </ul>
+    <ul class="nav pull-right" style="margin:0">
+      <li style="float:left;">
+        <font color="red"><a href="http://127.0.0.1:5100/index">资讯</a></font>
+      </li>
+      <li style="float:left">
+       <p>&nbsp&nbsp&nbsp</p>
+      </li>
+      <li style="float:left">
+       <a href="http://127.0.0.1:6100/community_index">社区</a>
+      </li>
+    </ul>
   </div>
+  <script type="text/javascript" >
+    function to_log_in() {
+      var cur_url=this.location.href;
+      window.location.href="/login?next_url="+cur_url;
+    }
+    function to_regist() {
+      var cur_url=this.location.href;
+      window.location.href="/user_create?next_url="+cur_url;
+    }
+    function to_log_out() {
+      var cur_url=this.location.href;
+      window.location.href="/logout?next_url="+cur_url;
+    }
+  </script>
 {%- endmacro %}
