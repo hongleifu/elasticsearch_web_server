@@ -52,7 +52,7 @@ def service(request):
         req=urllib2.Request(url)
         res_data=urllib2.urlopen(req)
         res=res_data.read()
-        print res
+        print "word:",query," get recommend url",url," recommend result:",res
         res=res.decode('utf8')
         result_dict_recommend = json.loads(res)
         recommend=result_dict_recommend['data']
