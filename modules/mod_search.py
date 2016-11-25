@@ -17,6 +17,7 @@ def service(request):
     page_no=request.form.get("page_no",1)
     num_perpage=request.form.get("num_perpage",5)
     query=request.form.get("query"," ")
+    recommend_query=query
     query=query.encode('utf8')
     print "page no:",page_no,"per:",num_perpage,"query:",query
 
@@ -44,16 +45,17 @@ def service(request):
     
     #get recommend result of key word  from recommend engine
     param_dict={}
-    param_dict['query']=query
+    param_dict['query']=recommend_query.encode('utf8')
     param_dict['type']='key_word'
     url=get_recommend_service_base_url()+urllib.urlencode(param_dict)
     recommend=[]
     try:
+        print "word:",recommend_query," get recommend url",url
         req=urllib2.Request(url)
         res_data=urllib2.urlopen(req)
         res=res_data.read()
-        print "word:",query," get recommend url",url," recommend result:",res
         res=res.decode('utf8')
+        print " recommend result:",res
         result_dict_recommend = json.loads(res)
         recommend=result_dict_recommend['data']
     except Exception,e:
