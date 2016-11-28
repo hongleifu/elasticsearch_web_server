@@ -1,74 +1,102 @@
-{% extends 'commons/_proto.html' %}
-{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
+{% extends 'commons/_proto.html' %} {% from
+'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body
+%}
+<div id="navbar">{{ macro_body_navbar() }}</div>
 
-{% block body %}
-    <div id="navbar">
-    	{{ macro_body_navbar() }}
+<div
+  id="search_input_wrap"
+  style="padding-top: 80px; text-align: center; height: 100px; background: #FFF">
+  <input
+    type="text"
+    id="search_input"
+    value='{{query}}'
+    style="width: 400px; height: 30px"
+    onkeypress="if(event.keyCode==13) {search()}">
+</div>
+
+<div
+  id="body_all_wrap"
+  style="text-align: center; height: 1100px; background: #FFF">
+  <div
+    id="search_recommend_wrap"
+    style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; background: red">
+    <div
+      id="search_result"
+      style="position: relative; width: 80%; text-align: left; float: left">
+      {% for row in model%}
+      <div>
+        <!--<p>{{row['_source']['title']}}</p>-->
+        <font
+          size=3
+          color=blue> <a
+          style="color: inherit; text-decoration: underline"
+          href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a>
+        </font>
+      </div>
+      <div
+        style="height: 40px; overflow: hidden; text-overflow: ellipsis">
+        <a
+          style="color: inherit"
+          href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+      </div>
+      <div>
+        <p></p>
+      </div>
+      <div>
+        <p></p>
+      </div>
+      {%endfor%}
     </div>
-
-    <div id="search_input_wrap" style="padding-top:80px; text-align:center; height:100px; background:#FFF ">
-        <input type="text" id="search_input" value='{{query}}' style="width:400px;height:30px" onkeypress="if(event.keyCode==13) {search()}">
+    {%if recommend_keyword %}
+    <div
+      id="recommend_result_keyword"
+      style="position: relative; width: 15%; top: 20px; text-align: left; float: right">
+      <font
+        size=4
+        color='orange'><p>相关搜索:</p> <br></font> {% for data in
+      recommend_keyword%} <font
+        size=4
+        color='blue'><a
+        href="javascript:search_key('{{data}}')"
+        color='inherit'>{{data}}</a></font> <br> {%endfor%}
     </div>
+    {%endif%}
+  </div>
+</div>
 
-    <div id="body_all_wrap" style="text-align:center; height:1100px; background:#FFF ">
-    	<div id="search_recommend_wrap" style="width:50%; margin-left: auto; margin-right: auto;text-align:center;background:red">
-                <div id="search_result" style="position:relative; width:80%;text-align:left;float:left">
-                    {% for row in model%}
-                         <div>
-                             <!--<p>{{row['_source']['title']}}</p>-->
-                            <font size=3 color=blue> <a style="color:inherit;text-decoration:underline" href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a> </font>
-                         </div>
-                         <div style="height:40px;overflow:hidden;text-overflow:ellipsis">
-                             <a style="color:inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
-                         </div>
-                         <div>
-                         <p>             </p>
-                         </div>
-                         <div>
-                         <p>             </p>
-                         </div>
-                    {%endfor%}
-                </div>
-                {%if recommend_keyword %}
-                <div id="recommend_result_keyword" style="position:relative;width:15%;top:20px;text-align:left;float:right">
-                    <font size=4 color='orange'><p>相关搜索:</p> <br></font>
-                    {% for data in recommend_keyword%}
-                       <font size=4 color='blue'><a href="javascript:search_key('{{data}}')" color='inherit'>{{data}}</a></font> <br>
-                    {%endfor%}
-                </div>
-                {%endif%}
-    	</div>
-    </div>
-
-    <script type="text/javascript">
-         function post(URL, PARAMS) {        
-             var temp = document.createElement("form");        
-             temp.action = URL;        
-             temp.method = "post";        
-             temp.style.display = "none";        
-             for (var x in PARAMS) {        
-                 var opt = document.createElement("textarea");        
-                 opt.name = x;        
-                 opt.value = PARAMS[x];        
-                 temp.appendChild(opt);        
-             }     
-             document.body.appendChild(temp);        
-             temp.submit();        
-             return temp;        
-         }     
-         function search() {
-             post("/search",{"query":document.getElementById("search_input").value});
-         }
-         function search_key(word) {
-             document.getElementById("search_input").value=word
-             post("/search",{"query":document.getElementById("search_input").value});
-         }
-            // post("/search",{"query":document.getElementById("search_input").value});
-        // function pre_page(page_no) {
-        //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
-        // }
-        // function next_page(page_no) {
-        //     window.location="/search_result?page_no="+({{page_no}}+1).toString();
-        // }
-    </script>
+<script type="text/javascript">
+    function post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for ( var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+    function search() {
+        post("/search", {
+            "query" : document.getElementById("search_input").value
+        });
+    }
+    function search_key(word) {
+        document.getElementById("search_input").value = word
+        post("/search", {
+            "query" : document.getElementById("search_input").value
+        });
+    }
+    // post("/search",{"query":document.getElementById("search_input").value});
+    // function pre_page(page_no) {
+    //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
+    // }
+    // function next_page(page_no) {
+    //     window.location="/search_result?page_no="+({{page_no}}+1).toString();
+    // }
+</script>
 {% endblock %}
