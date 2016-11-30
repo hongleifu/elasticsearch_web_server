@@ -1,42 +1,59 @@
-{% extends 'commons/_proto.html' %} {% from
-'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body
-%}
+{% extends 'commons/_proto.html' %} {% from 'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body %}
+
+<link rel="stylesheet" type="text/css" href="stylesheets/tabs.css">
+
 <div id="navbar">{{ macro_body_navbar() }}</div>
 
-<div
-  style="padding-top: 100px; text-align: center; height: 100px; background: #FFF">
-  <input
-    type="text"
-    id="search_input"
-    placeholder=""
-    style="width: 400px; height: 30px"
-    onkeypress="if(event.keyCode==13) {search()}">
+<div style="padding-top: 100px; text-align: center; height: 100px; background: #FFF">
+  <input type="text" id="search_input" placeholder="" style="width: 400px; height: 30px"
+    onkeypress="if(event.keyCode==13) {search(this.value)}" />
 </div>
+
+<div>
+  <ul id="index-tabs" class="tab">
+    <li><a href="javascript:query('股票')" class="tablinks">股票</a></li>
+    <li><a href="javascript:query('基金')" class="tablinks">基金</a></li>
+  </ul>
+</div>
+
+<div id="股票" class="tabcontent">
+  {% for row in model%}
+  <div>
+    <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
+      href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a>
+    </font>
+  </div>
+  <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
+    <a style="color: inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+  </div>
+  {%endfor%}
+</div>
+
+<div id="基金" class="tabcontent">
+  {% for row in model%}
+  <div>
+    <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
+      href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a>
+    </font>
+  </div>
+  <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
+    <a style="color: inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+  </div>
+  {%endfor%}
+</div>
+
 <div style="text-align: center; height: 1200px; background: #FFF">
   {%if recommend_content %}
   <p>推荐阅读</p>
-  <div
-    id="search_result"
-    style="width: 50%; margin-left: auto; margin-right: auto; text-align: left;">
+  <div id="search_result" style="width: 50%; margin-left: auto; margin-right: auto; text-align: left;">
     {% for row in recommend_content%}
     <div>
-      <font
-        size=3
-        color=blue> <a
-        style="color: inherit; text-decoration: underline"
+      <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
         href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a>
       </font>
     </div>
     <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
-      <a
-        style="color: inherit"
-        href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
-    </div>
-    <div>
-      <p></p>
-    </div>
-    <div>
-      <p></p>
+      <a style="color: inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
     </div>
     {%endfor%}
   </div>
@@ -59,16 +76,26 @@
         temp.submit();
         return temp;
     }
+
     function search() {
         post("/search", {
             "query" : document.getElementById("search_input").value
         });
     }
-    // function pre_page(page_no) {
-    //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
-    // }
-    // function next_page(page_no) {
-    //     window.location="/search_result?page_no="+({{page_no}}+1).toString();
-    // }
+
+    function query(data) {
+        var i, tabcontent, tablinks;
+        post("/tabs", {"query" : data});
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className
+                    .replace(" active", "");
+        }
+        document.getElementById(data).style.display = "block";
+    }
 </script>
 {% endblock %}

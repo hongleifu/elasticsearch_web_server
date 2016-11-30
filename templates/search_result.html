@@ -1,43 +1,24 @@
-{% extends 'commons/_proto.html' %} {% from
-'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body
-%}
+{% extends 'commons/_proto.html' %} {% from 'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body %}
 <div id="navbar">{{ macro_body_navbar() }}</div>
 
-<div
-  id="search_input_wrap"
-  style="padding-top: 80px; text-align: center; height: 100px; background: #FFF">
-  <input
-    type="text"
-    id="search_input"
-    value='{{query}}'
-    style="width: 400px; height: 30px"
+<div id="search_input_wrap" style="padding-top: 80px; text-align: center; height: 100px; background: #FFF">
+  <input type="text" id="search_input" value='{{query}}' style="width: 400px; height: 30px"
     onkeypress="if(event.keyCode==13) {search()}">
 </div>
 
-<div
-  id="body_all_wrap"
-  style="text-align: center; height: 1100px; background: #FFF">
-  <div
-    id="search_recommend_wrap"
+<div id="body_all_wrap" style="text-align: center; height: 1100px; background: #FFF">
+  <div id="search_recommend_wrap"
     style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; background: red">
-    <div
-      id="search_result"
-      style="position: relative; width: 80%; text-align: left; float: left">
+    <div id="search_result" style="position: relative; width: 80%; text-align: left; float: left">
       {% for row in model%}
       <div>
         <!--<p>{{row['_source']['title']}}</p>-->
-        <font
-          size=3
-          color=blue> <a
-          style="color: inherit; text-decoration: underline"
+        <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
           href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a>
         </font>
       </div>
-      <div
-        style="height: 40px; overflow: hidden; text-overflow: ellipsis">
-        <a
-          style="color: inherit"
-          href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+      <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
+        <a style="color: inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
       </div>
       <div>
         <p></p>
@@ -48,17 +29,10 @@
       {%endfor%}
     </div>
     {%if recommend_keyword %}
-    <div
-      id="recommend_result_keyword"
-      style="position: relative; width: 15%; top: 20px; text-align: left; float: right">
-      <font
-        size=4
-        color='orange'><p>相关搜索:</p> <br></font> {% for data in
-      recommend_keyword%} <font
-        size=4
-        color='blue'><a
-        href="javascript:search_key('{{data}}')"
-        color='inherit'>{{data}}</a></font> <br> {%endfor%}
+    <div id="recommend_result_keyword" style="position: relative; width: 15%; top: 20px; text-align: left; float: right">
+      <font size=4 color='orange'><p>相关搜索:</p> <br></font> {% for data in recommend_keyword%} <font size=4
+        color='blue'><a href="javascript:search_key('{{data}}')" color='inherit'>{{data}}</a></font> <br>
+      {%endfor%}
     </div>
     {%endif%}
   </div>
