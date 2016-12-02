@@ -20,18 +20,13 @@
       <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
         <a style="color: inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
       </div>
-      <div>
-        <p></p>
-      </div>
-      <div>
-        <p></p>
-      </div>
       {%endfor%}
     </div>
     {%if recommend_keyword %}
     <div id="recommend_result_keyword" style="position: relative; width: 15%; top: 20px; text-align: left; float: right">
-      <font size=4 color='orange'><p>相关搜索:</p> <br></font> {% for data in recommend_keyword%} <font size=4
-        color='blue'><a href="javascript:search_key('{{data}}')" color='inherit'>{{data}}</a></font> <br>
+      <font size=4 color='orange'><p>相关搜索:</p> <br></font> 
+      {% for data in recommend_keyword%} 
+        <font size=4 color='blue'><a href="javascript:search_key('{{data}}')" color='inherit'>{{data}}</a></font> <br>
       {%endfor%}
     </div>
     {%endif%}
@@ -65,12 +60,5 @@
             "query" : document.getElementById("search_input").value
         });
     }
-    // post("/search",{"query":document.getElementById("search_input").value});
-    // function pre_page(page_no) {
-    //     window.location="/search_result?page_no="+({{page_no}}-1).toString();
-    // }
-    // function next_page(page_no) {
-    //     window.location="/search_result?page_no="+({{page_no}}+1).toString();
-    // }
 </script>
 {% endblock %}

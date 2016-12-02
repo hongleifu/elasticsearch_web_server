@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template 
-
+from flask import Flask, request, render_template, jsonify 
+from django.core.paginator import PageNotAnInteger, Paginator, InvalidPage, EmptyPage
 from modules import mod_search
 from modules import mod_login
 
@@ -33,13 +33,16 @@ def page_not_found(e):
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    
     model,query,recommend_keyword = mod_search.service(request)
     return render_template('search_result.html', model=model,query=query,recommend_keyword=recommend_keyword)
 
-@app.route('/tabs', methods=['POST'])
+@app.route('/tabs', methods=['GET', 'POST'])
 def tabs():
-    model,query,recommend_keyword = mod_search.service(request)
-    return render_template('index.html', model=model,query=query,recommend_keyword=recommend_keyword)
+
+    tab = request.args.get('tab', 0)
+    result = mod_search.query(tab)
+    return jsonify(result = result)
 
 @app.route('/login',methods=['GET','POST'])
 def login():

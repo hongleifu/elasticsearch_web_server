@@ -4,14 +4,39 @@ import cStringIO
 import json
 import urllib 
 import urllib2 
-import httplib 
 sys.path.append(sys.path[0])
-
 
 def get_search_service_base_url():
     return 'localhost:9200/finance/_search?pretty'
 def get_recommend_service_base_url():
     return "http://127.0.0.1:5200/recommend?"
+
+def query(request):
+    
+    query=request.encode('utf8')
+
+    return_value=[]
+    try:
+        c=pycurl.Curl()
+        buf=cStringIO.StringIO()
+        c.setopt(c.URL,get_search_service_base_url())
+        query_condition = '{"query": { "match": { "title": '+ '"'+query+'"'+' } },"size":15}'
+        c.setopt(c.POSTFIELDS,query_condition)
+        c.setopt(c.WRITEFUNCTION, buf.write)
+        c.perform()
+        result = buf.getvalue()
+        result_dict = json.loads(result)
+        buf.close()
+        return_value=result_dict['hits']['hits'] 
+        query_unicode = query.decode('utf8')
+        for item in return_value:
+            item["_source"]["content"] = item["_source"]["content"].replace(query_unicode,'<font color="red">'+query_unicode+'</font>')
+            item["_source"]["title"] = item["_source"]["title"].replace(query_unicode,'<font color="red">'+query_unicode+'</font>')
+        
+    except Exception,e:
+        print "get search result error:",e
+        
+    return return_value
 
 def service(request):
     page_no=request.form.get("page_no",1)
@@ -39,6 +64,7 @@ def service(request):
         for item in return_value:
             item["_source"]["content"] = item["_source"]["content"].replace(query_unicode,'<font color="red">'+query_unicode+'</font>')
             item["_source"]["title"] = item["_source"]["title"].replace(query_unicode,'<font color="red">'+query_unicode+'</font>')
+        
     except Exception,e:
         print "get search result error:",e
 
