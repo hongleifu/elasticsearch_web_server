@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, jsonify 
-from django.core.paginator import PageNotAnInteger, Paginator, InvalidPage, EmptyPage
 from modules import mod_search
 from modules import mod_login
 

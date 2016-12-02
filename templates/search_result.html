@@ -14,11 +14,11 @@
       <div>
         <!--<p>{{row['_source']['title']}}</p>-->
         <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
-          href="{{row['_source']['url']}}">{{row['_source']['title']|safe}}</a>
+          href="{{row['_source']['article_url']}}">{{row['_source']['title']|safe}}</a>
         </font>
       </div>
       <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
-        <a style="color: inherit" href="{{row['_source']['url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+        <a style="color: inherit" href="{{row['_source']['article_url']}}"><p>{{row['_source']['content']|safe}}</p></a>
       </div>
       {%endfor%}
     </div>
