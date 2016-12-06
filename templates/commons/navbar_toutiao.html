@@ -1,47 +1,58 @@
-{% from 'commons/macros.html' import macro_navbar_title %}
 
 {% macro macro_body_navbar() -%}
-  <div class="navbar-inner-for-search">
-    <ul class="nav pull-left" style="margin:0">
-      <li id="fat-menu" class="dropdown">
-        {% if session.get('userinfo') %}
-          <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<i class="icon-caret-down"></i></a>
-          <ul class="dropdown-menu">
-              <li><a tabindex="1" href="javascript:to_log_out()">登出</a></li>
-          </ul>
-        {% else %}
-           <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i><i class="icon-caret-down"></i></a>
-           <ul class="dropdown-menu" >
-               <li><a tabindex="-1" href="javascript:to_log_in()">登录</a></li>
-               <li><a tabindex="2" href="javascript:to_regist()">注册</a></li>
-           </ul>
-        {% endif %}
-      </li>
-    </ul>
-    <ul class="nav pull-right" style="margin:0">
-      <li style="float:left;">
-        <font color="red"><a href="/index">资讯</a></font>
-      </li>
-      <li style="float:left">
-       <p>&nbsp&nbsp&nbsp</p>
-      </li>
-      <li style="float:left">
-       <a href="http://0.0.0.0:6100/community_index">社区</a>
-      </li>
-    </ul>
+<div class="site-wrapper">
+  <div class="site-wrapper-inner">
+    <div class="cover-container">
+      <div class="masthead clearfix">
+        <div class="inner">
+          <nav>
+            <div id="navbar" class="navbar-collapse collapse">
+              <!-- <h2 class="masthead-brand">财经头条</h2> -->
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                  {% if session.get('userinfo') %}
+                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-user"></i>{{ session.get('userinfo')['name'] }}<span class="caret"></span></a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#">个人主页</a></li>
+                    <li><a href="#">设置</a></li>
+                    <li><a href="javascript:to_log_out()">登出</a></li>
+                  </ul>
+                  {% else %}
+                  <a href="#" class="dropdown-toggle" style="background: transparent;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">未登陆 <span class="caret"></span></a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="javascript:to_log_in()">登陆</a></li>
+                    <li><a href="javascript:to_regist()">注册</a></li>
+                  </ul>
+                  {% endif %}
+                </li>
+              </ul>
+
+              <ul class="nav masthead-nav navbar-right">
+                <li class="active"><a href="/">资讯</a></li>
+                <li><a href="http://0.0.0.0:5200/index" target="blank">社区</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
   </div>
-  <script type="text/javascript" >
-    function to_log_in() {
-      var cur_url=this.location.href;
-      window.location.href="/login?next_url="+cur_url;
-    }
-    function to_regist() {
-      var cur_url=this.location.href;
-      window.location.href="/user_create?next_url="+cur_url;
-    }
-    function to_log_out() {
-      var cur_url=this.location.href;
-      window.location.href="/logout?next_url="+cur_url;
-    }
-  </script>
+</div>
+
+
+
+<script type="text/javascript" >
+ function to_log_in() {
+     var cur_url=this.location.href;
+     window.location.href="/login?next_url="+cur_url;
+ }
+ function to_regist() {
+     var cur_url=this.location.href;
+     window.location.href="/user_create?next_url="+cur_url;
+ }
+ function to_log_out() {
+     var cur_url=this.location.href;
+     window.location.href="/logout?next_url="+cur_url;
+ }
+</script>
 {%- endmacro %}

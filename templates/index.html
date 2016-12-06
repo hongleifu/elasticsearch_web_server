@@ -1,24 +1,31 @@
-{% extends 'commons/_proto.html' %} {% from 'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body %}
+{% extends 'commons/_proto.html' %} 
+{% from 'commons/navbar_toutiao.html' import macro_body_navbar %} 
 
-<link rel="stylesheet" type="text/css" href="stylesheets/tabs.css">
+{% block body %}
+  {{ macro_body_navbar() }}
 
-<div id="navbar">{{ macro_body_navbar() }}</div>
+  <div class="row">
+    <div class="search-div">
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" id="search_input" placeholder="Search" onkeypress="if(event.keyCode==13) {search()}" />
+        <span class="glyphicon glyphicon-search form-control-feedback" />
+      </div>
+      
+      <ul class="nav nav-pills nav-justified">
+        <li id="tab-1" class="active" name='期货'><a href="#">期货</a></li>
+        <li name='股票'><a href="#">股票</a></li>
+        <li name='基金'><a href="#">基金</a></li>
+      </ul>
+      <div class="post-data" style="text-align:left"></div>
+  
+    </div>
+  </div>
 
-<div style="padding-top: 100px; text-align: center; height: 100px; background: #FFF">
-  <input type="text" id="search_input" placeholder="" style="width: 400px; height: 30px"
-    onkeypress="if(event.keyCode==13) {search(this.value)}" />
-</div>
 
-<ul class="nav nav-pills nav-justified">
-  <li class="active" name='期货'><a href="#">期货</a></li>
-  <li name='股票'><a href="#">股票</a></li>
-  <li name='基金'><a href="#">基金</a></li>
-</ul>
-<div class="panel panel-body">
-  <div class="post-data"></div>
-</div>
+  
 
-<div style="text-align: center; height: 1200px; background: #FFF">
+
+<div style="text-align: center">
   {%if recommend_content %}
   <p>推荐阅读</p>
   <div id="search_result" style="width: 50%; margin-left: auto; margin-right: auto; text-align: left;">
@@ -39,22 +46,25 @@
 <script type=text/javascript>
 
   $(function() {
-    	$('ul.nav li').bind('click', function() {
-      	$('li').removeClass('active');
-    	$(this).addClass('active');
-        $.getJSON('/tabs', {
-            tab : $(this).attr("name")
-        }, function(data) {
-            $('div.post-data').empty();
-            var obj = data.result
-            $.each(obj, function(i, val) {
-              var add = "<a href='" + val._source.article_url+"'><h3>"
-                        + val._source.title + "</h3></a>";
-              $('div.post-data').append(add);
-            });
-        });
-        return false;
-    });
+
+      $('ul.nav li').bind('click', function() {
+          $('li').removeClass('active');
+      	  $(this).addClass('active');
+          $.getJSON('/tabs', {
+              tab : $(this).attr("name")
+          }, function(data) {
+              $('div.post-data').empty();
+              var obj = data.result
+              $.each(obj, function(i, val) {
+                var add = "<a style='color:inherit' href='" + val._source.article_url+"'><h3>"
+                          + val._source.title + "</h3></a>";
+                $('div.post-data').append(add);
+              });
+          });
+          return false;
+      });
+      
+      $('#tab-1').trigger('click');
   });
 
   function post(URL, PARAMS) {

@@ -1,1 +1,238 @@
-.page_disable,.page_list,.page_num{border:1px solid #e0e0e0}.my_meta_page{width:904px;height:35px;margin:30px auto}.page_main{height:35px;float:right}.page_disable,.page_list,.page_main span,.page_num{display:block;float:left;padding:8px 10px}.page_num{margin-left:-1px}.page_num.active,.page_num:hover{background:#f0f0f0}.page_list,.page_list:hover{background:#969696;color:#fff}.page_disable{background:#dedede;color:#999}
+html,
+body {
+    height: 100%;
+    /* background-color: #333; */
+    background-image: url('../../images/furley_bg.png');
+}
+
+body {
+    /* color: #fff; */
+    text-align: center;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    /* text-shadow: 0 1px 3px rgba(0,0,0,.5); */
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+    display: table;
+    width: 100%;
+    height: 100%; /* For at least Firefox */
+    min-height: 100%;
+    -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+    box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+}
+.site-wrapper-inner {
+    display: table-cell;
+    vertical-align: top;
+}
+.cover-container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner {
+    padding: 30px;
+}
+
+/*
+ * Header
+ */
+.masthead-brand {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 120px;
+}
+
+.masthead-nav > li {
+    display: inline-block;
+}
+.masthead-nav > li + li {
+    margin-left: 20px;
+}
+.masthead-nav > li > a {
+    padding-right: 0;
+    padding-left: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #777; /* IE8 proofing */
+    /* color: rgba(255,255,255,.75); */
+    border-bottom: 2px solid transparent;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+    background-color: transparent;
+    border-bottom-color: #a9a9a9;
+    border-bottom-color: rgba(0,0,0,.25);
+}
+
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+    color: #000;
+    border-bottom-color: #000;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+    background-color: transparent;
+    border-bottom-color: #a9a9a9;
+    border-bottom-color: rgba(255,255,255,.25);
+}
+
+.dropdown {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+@media (min-width: 768px) {
+    .masthead-brand {
+        float: left;
+    }
+    .masthead-nav {
+        float: left;
+    }
+}
+
+
+/*
+ * Cover
+ */
+
+.cover {
+    padding: 0 20px;
+}
+.cover .btn-lg {
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.masthead {
+    position: absolute;
+
+}
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+    color: #999; /* IE8 proofing */
+    color: rgba(255,255,255,.5);
+}
+
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 768px) {
+    /* Pull out the header and footer */
+    .masthead {
+        position: absolute;
+        top: 0;
+    }
+    .mastfoot {
+        position: absolute;
+        bottom: 0;
+    }
+    /* Start the vertical centering */
+    .site-wrapper-inner {
+        vertical-align: middle;
+    }
+    /* Handle the widths */
+    .masthead,
+    .mastfoot,
+    .cover-container {
+        width: 100%; /* Must be percentage or pixels for horizontal alignment */
+    }
+}
+
+@media (min-width: 992px) {
+    .masthead,
+    .mastfoot,
+    .cover-container {
+        width: 860px;
+    }
+}
+
+.search-div {
+	width: 80%;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* 注册页面  */
+.singup-wrap {
+    margin-top: 80px;
+}
+
+.signup-submit-div {
+    margin-top: 30px;
+}
+
+.form-signup-heading {
+    margin-bottom: 30px;
+}
+
+.div-signup {
+    max-width: 500px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin: 0 auto;
+}
+
+
+/* 登陆页面  */
+.signin-div {
+    margin-top: 150px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.index-main-div {
+    text-align: left;
+    margin-left: 20px;
+    padding: 10px;
+}

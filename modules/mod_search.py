@@ -11,41 +11,10 @@ def get_search_service_base_url():
 def get_recommend_service_base_url():
     return "http://127.0.0.1:5200/recommend?"
 
-def query(request):
-    
-    query=request.encode('utf8')
+def service(query):
 
-    return_value=[]
-    try:
-        c=pycurl.Curl()
-        buf=cStringIO.StringIO()
-        c.setopt(c.URL,get_search_service_base_url())
-        query_condition = '{"query": { "match": { "title": '+ '"'+query+'"'+' } },"size":15}'
-        c.setopt(c.POSTFIELDS,query_condition)
-        c.setopt(c.WRITEFUNCTION, buf.write)
-        c.perform()
-        result = buf.getvalue()
-        result_dict = json.loads(result)
-        buf.close()
-        return_value=result_dict['hits']['hits'] 
-        query_unicode = query.decode('utf8')
-        for item in return_value:
-            item["_source"]["content"] = item["_source"]["content"].replace(query_unicode,'<font color="red">'+query_unicode+'</font>')
-            item["_source"]["title"] = item["_source"]["title"].replace(query_unicode,'<font color="red">'+query_unicode+'</font>')
-        
-    except Exception,e:
-        print "get search result error:",e
-        
-    return return_value
-
-def service(request):
-    page_no=request.form.get("page_no",1)
-    num_perpage=request.form.get("num_perpage",5)
-    query=request.form.get("query"," ")
     recommend_query=query
     query=query.encode('utf8')
-    print "page no:",page_no,"per:",num_perpage,"query:",query
-
     # get search result from search engine
     return_value=[]
     try:
@@ -88,4 +57,4 @@ def service(request):
         print "get recommend of keyword result error:",e
 
     #return all result
-    return return_value,query.decode('utf8'), recommend
+    return return_value, query.decode('utf8'), recommend

@@ -1,27 +1,34 @@
-{% extends 'commons/_proto.html' %} {% from 'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body %}
-<div id="navbar">{{ macro_body_navbar() }}</div>
+{% extends 'commons/_proto.html' %} 
+{% from 'commons/navbar_toutiao.html' import macro_body_navbar %}
 
-<div id="search_input_wrap" style="padding-top: 80px; text-align: center; height: 100px; background: #FFF">
-  <input type="text" id="search_input" value='{{query}}' style="width: 400px; height: 30px"
-    onkeypress="if(event.keyCode==13) {search()}">
-</div>
+{% block body %}
+{{ macro_body_navbar() }}
 
-<div id="body_all_wrap" style="text-align: center; height: 1100px; background: #FFF">
-  <div id="search_recommend_wrap"
-    style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; background: red">
-    <div id="search_result" style="position: relative; width: 80%; text-align: left; float: left">
-      {% for row in model%}
-      <div>
-        <!--<p>{{row['_source']['title']}}</p>-->
-        <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
-          href="{{row['_source']['article_url']}}">{{row['_source']['title']|safe}}</a>
-        </font>
+  <div class="row">
+    <div class="search-div">
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" id="search_input" value='{{query}}' onkeypress="if(event.keyCode==13) {search()}" />
+        <span class="glyphicon glyphicon-search form-control-feedback" />
       </div>
-      <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
-        <a style="color: inherit" href="{{row['_source']['article_url']}}"><p>{{row['_source']['content']|safe}}</p></a>
+      
+      <div id="search_result" style="text-align: left">
+        {% for article in articles %}
+        <div>
+          <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
+            href="{{article['_source']['article_url']}}">{{article['_source']['title']|safe}}</a>
+          </font>
+        </div>
+        <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
+          <a style="color: inherit" href="{{article['_source']['article_url']}}"><p>{{article['_source']['content']|safe}}</p></a>
+        </div>
+        {%endfor%}
       </div>
-      {%endfor%}
+    </ul>
+    
+    <div>
+      <ul class="sync-pagination pagination-sm" id="pagination"></ul>
     </div>
+    
     {%if recommend_keyword %}
     <div id="recommend_result_keyword" style="position: relative; width: 15%; top: 20px; text-align: left; float: right">
       <font size=4 color='orange'><p>相关搜索:</p> <br></font> 
@@ -30,11 +37,37 @@
       {%endfor%}
     </div>
     {%endif%}
+    </div>
   </div>
-</div>
 
-<script type="text/javascript">
-    function post(URL, PARAMS) {
+  <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
+  <script type="text/javascript" charset="utf-8">
+
+    var pageNo = {{no}};
+    var pageSize = {{size}};
+    var totalCount = {{totalsize}};
+    var query = $('#search_input').val()
+    var totalPages = Math.ceil(totalCount/pageSize);
+  
+    $('.sync-pagination').twbsPagination({
+        startPage: pageNo,
+        totalPages: totalPages,
+        first: '首页',
+        prev: '前一页',
+        next: '下一页',
+        last: '末页',
+        onPageClick: function (evt, page) {
+            if (page == pageNo) {
+                console.debug("current page number clicked, do nothing.");
+                return;
+            }
+            var url = "/searchpage?query=" + query + "&no=" + page + "&size=" + pageSize;
+            console.debug("pageurl:", url);
+            window.location.href = url;
+        }
+    });
+  
+	function post(URL, PARAMS) {
         var temp = document.createElement("form");
         temp.action = URL;
         temp.method = "post";

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify 
+from flask import Flask, request, render_template, jsonify
 from modules import mod_search
 from modules import mod_login
 
@@ -29,19 +29,31 @@ def page_not_found(e):
 
 '''  BUSSINESS FUNCTIONS BEGIN  '''
 
-
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['POST'])
 def search():
     
-    model,query,recommend_keyword = mod_search.service(request)
-    return render_template('search_result.html', model=model,query=query,recommend_keyword=recommend_keyword)
+    model,query,recommend_keyword = mod_search.service(request.form.get("query",""))
+    return render_template('search_result.html', articles=model, query=query, recommend_keyword=recommend_keyword, num=len(model), no=1, size=10, totalsize=len(model))
+
+@app.route('/searchpage', methods=['GET'])
+def searchpage():
+    page_no = int(request.args.get('no'))
+    page_size = int(request.args.get('size'))
+    start = (page_no - 1) * page_size
+    end = page_no * page_size
+    query = request.args.get('query')
+    model,query,recommend_keyword = mod_search.service(query)
+    if model != None:
+        return render_template('search_result.html', articles=model[start:end], query=query, recommend_keyword=recommend_keyword, no=page_no, size=page_size, totalsize=len(model))
+    else:
+        return render_template('search_result.html', articles=model, query=query, recommend_keyword=recommend_keyword, no=page_no, size=0, totalsize=0)
 
 @app.route('/tabs', methods=['GET', 'POST'])
 def tabs():
 
-    tab = request.args.get('tab', 0)
-    result = mod_search.query(tab)
-    return jsonify(result = result)
+    query = request.args.get('tab', '')
+    result = mod_search.service(query)
+    return jsonify(result = result[0])
 
 @app.route('/login',methods=['GET','POST'])
 def login():
