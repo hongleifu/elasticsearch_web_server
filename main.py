@@ -32,8 +32,9 @@ def page_not_found(e):
 @app.route('/search', methods=['POST'])
 def search():
     
+    size = 10
     model,query,recommend_keyword = mod_search.service(request.form.get("query",""))
-    return render_template('search_result.html', articles=model, query=query, recommend_keyword=recommend_keyword, num=len(model), no=1, size=10, totalsize=len(model))
+    return render_template('search_result.html', articles=model[:size], query=query, recommend_keyword=recommend_keyword, num=len(model), no=1, size=size, totalsize=len(model))
 
 @app.route('/searchpage', methods=['GET'])
 def searchpage():
