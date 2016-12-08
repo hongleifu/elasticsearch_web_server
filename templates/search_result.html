@@ -10,6 +10,7 @@
         <input type="text" class="form-control" id="search_input" value='{{query}}' onkeypress="if(event.keyCode==13) {search()}" />
         <span class="glyphicon glyphicon-search form-control-feedback" />
       </div>
+      <br/>
       
       <div id="search_result" style="text-align: left">
         {% for article in articles %}
@@ -21,6 +22,7 @@
         <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
           <a style="color: inherit" href="{{article['_source']['article_url']}}"><p>{{article['_source']['content']|safe}}</p></a>
         </div>
+        <br/>
         {%endfor%}
       </div>
     </ul>
