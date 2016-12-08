@@ -6,17 +6,20 @@
 
   <div class="row">
     <div class="search-div">
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" id="search_input" placeholder="Search" onkeypress="if(event.keyCode==13) {search()}" />
-        <span class="glyphicon glyphicon-search form-control-feedback" />
+      <div class="form-group input-group">
+        <span class="input-group-addon">宜信头条</span>
+        <input type="text" class="form-control" id="search_input" placeholder="搜索" onkeypress="if(event.keyCode==13) {search()}" />
+        <div class="input-group-btn">
+            <button class="btn btn-default" onClick="javascript:search()"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
       </div>
       
-      <ul class="nav nav-pills nav-justified">
+      <ul class="nav nav-pills head-menu">
         <li id="tab-1" class="active" name='期货'><a href="#">期货</a></li>
         <li name='股票'><a href="#">股票</a></li>
         <li name='基金'><a href="#">基金</a></li>
       </ul>
-      <div class="post-data" style="text-align:left"></div>
+      <div class="post-data"></div>
     </div>
   </div>
 
@@ -41,7 +44,6 @@
 <script type=text/javascript>
 
   $(function() {
-
       $('ul.nav li').bind('click', function() {
           $('li').removeClass('active');
       	  $(this).addClass('active');
@@ -51,7 +53,7 @@
               $('div.post-data').empty();
               var obj = data.result
               $.each(obj, function(i, val) {
-                var add = "<a style='color:inherit' href='" + val._source.article_url+"'><h3>"
+                var add = "<a href='" + val._source.article_url+"'><h3>"
                           + val._source.title + "</h3></a>";
                 $('div.post-data').append(add);
               });
