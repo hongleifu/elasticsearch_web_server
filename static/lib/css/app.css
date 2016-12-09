@@ -1,7 +1,5 @@
 html, body {
 	height: 100%;
-	/* background-color: #333; */
-	background-image: url('../../images/furley_bg.png');
 }
 
 body {
@@ -147,7 +145,7 @@ body {
 
 @media ( min-width : 992px) {
 	.masthead, .mastfoot, .cover-container {
-		width: 860px;
+		width: 80%;
 	}
 }
 
@@ -172,71 +170,23 @@ body {
 	text-decoration: underline;
 }
 
-/* 注册页面  */
-.singup-wrap {
-	margin-top: 80px;
+.source-url {
+	float: left;
+	margin-top:5px;
 }
 
-.signup-submit-div {
-	margin-top: 30px;
-}
-
-.form-signup-heading {
-	margin-bottom: 30px;
-}
-
-.div-signup {
-	max-width: 500px;
-	padding-top: 40px;
-	padding-bottom: 40px;
-	margin: 0 auto;
-}
-
-/* 登陆页面  */
-.signin-div {
-	margin-top: 150px;
-	padding-top: 40px;
-	padding-bottom: 40px;
-}
-
-.form-signin {
-	max-width: 330px;
-	padding: 15px;
-	margin: 0 auto;
-}
-
-.form-signin .form-signin-heading, .form-signin .checkbox {
-	margin-bottom: 10px;
-}
-
-.form-signin .checkbox {
-	font-weight: normal;
-}
-
-.form-signin .form-control {
-	position: relative;
-	height: auto;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 10px;
-	font-size: 16px;
-}
-
-.form-signin .form-control:focus {
-	z-index: 2;
-}
-
-.form-signin input[type="email"] {
-	margin-bottom: -1px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+.source-url img {
+    position: relative;
+    color: #fff;
+    margin-right: 2px;
+    width: 18px;
+    height: 18px;
+    line-height: 17px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 50%;
+    background-color: #eee;
+    overflow: hidden;
 }
 
 .index-main-div {
