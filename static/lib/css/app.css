@@ -33,7 +33,8 @@ body {
 
 /* Padding for spacing */
 .inner {
-	padding: 30px;
+	padding-top: 1px;
+	padding-right: 90px;
 }
 
 /*
@@ -150,7 +151,7 @@ body {
 }
 
 .search-div {
-	width: 80%;
+	width: 90%;
 	margin-top: 100px;
 	margin-left: auto;
 	margin-right: auto;

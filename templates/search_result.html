@@ -1,6 +1,7 @@
 {% extends 'commons/_proto.html' %} {% from 'commons/navbar_toutiao.html' import macro_body_navbar %} {% block body %}
 {{ macro_body_navbar() }}
 
+<div id="row_wrapper" style="float:left;margin:10px 0;width:85%">
 <div class="row">
   <div class="search-div">
     <div class="form-group input-group">
@@ -13,7 +14,6 @@
       </div>
     </div>
     <br />
-
     <div id="search_result" style="text-align: left">
       {% if articles %} {% for article in articles %}
       <div>
@@ -40,15 +40,16 @@
       <ul class="sync-pagination pagination-sm" id="pagination"></ul>
     </div>
 
-    {%if recommend_keyword %}
-    <div id="recommend_result_keyword" style="position: relative; width: 15%; top: 20px; text-align: left; float: right">
-      <font size=4 color='orange'><p>相关搜索:</p> <br></font> {% for data in recommend_keyword%} <font size=4
-        color='blue'><a href="javascript:search_key('{{data}}')" color='inherit'>{{data}}</a></font> <br>
-      {%endfor%}
-    </div>
-    {%endif%}
   </div>
 </div>
+</div>
+{%if recommend_keyword %}
+<div id="recommend_result_keyword" style="width: 12%; text-align: right; float: right;margin-left:2px;margin-top:180px">
+  <font size=4 color='orange'><p>相关搜索:</p> <br></font> {% for data in recommend_keyword%} <font size=4
+    color='blue'><a href="javascript:search_key('{{data}}')" color='inherit'>{{data}}</a></font> <br>
+  {%endfor%}
+</div>
+{%endif%}
 
 <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
