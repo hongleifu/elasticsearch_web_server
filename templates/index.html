@@ -15,12 +15,12 @@
       </div>
       
       <ul class="nav nav-pills head-menu">
-        <li id="tab-1" class="active" name='股票'><a href="#">股票</a></li>
+        <!-- <li id="tab-1" class="active" name='股票'><a href="#">股票</a></li>
         <li name='母基金'><a href="#">母基金</a></li>
         <li name='理财'><a href="#">理财</a></li>
         <li name='投资'><a href="#">投资</a></li>
-        <li name='重点关注'><a href="#">重点关注</a></li>
-        <li name='法规速递'><a href="#">法规速递</a></li>
+        <li name='重点关注'><a href="#">重点关注</a></li> -->
+        <li id="tab-1" class="active" name='法规速递'><a href="#">法规速递</a></li>
         <li name='行业动态'><a href="#">行业动态</a></li>
       </ul>
       <div class="post-data"></div>
@@ -57,7 +57,7 @@
               $('div.post-data').empty();
               var obj = data.result
               $.each(obj, function(i, val) {
-                var add = "<a href='" + val._source.article_url+"'><h3>"
+                var add = "<a href='" + val._source.url+"' target='blank'><h3>"
                           + val._source.title + "</h3></a>";
                 $('div.post-data').append(add);
               });

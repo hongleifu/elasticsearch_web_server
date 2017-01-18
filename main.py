@@ -53,7 +53,7 @@ def searchpage():
 def tabs():
 
     query = request.args.get('tab', '')
-    result = mod_search.service(query)
+    result = mod_search.service_classify(query)
     return jsonify(result = result[0])
 
 @app.route('/login',methods=['GET','POST'])
@@ -74,4 +74,4 @@ def logout():
 '''  MAIN ENTRY  '''
 if __name__ == '__main__':
     app.debug = True
-    app.run(host="0.0.0.0",port=5100,processes=6)
+    app.run(host="127.0.0.1",port=5100,processes=6)

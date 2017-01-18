@@ -4,12 +4,16 @@ import cStringIO
 import json
 import urllib 
 import urllib2 
+import datetime
 sys.path.append(sys.path[0])
 
 def get_search_service_base_url():
     return 'localhost:9200/finance/_search?pretty'
 def get_recommend_service_base_url():
     return "http://127.0.0.1:5200/recommend?"
+
+def get_search_service_classify_url():
+    return 'localhost:9200/finance/laws_article/_search?pretty'
 
 def service(query):
 
@@ -58,3 +62,60 @@ def service(query):
 
     #return all result
     return return_value, query.decode('utf8'), recommend
+
+#search for classified article
+def service_classify(tag):
+    tag=tag.encode('utf8')
+
+    # get search result from search engine
+    return_value=[]
+    try:
+        c=pycurl.Curl()
+        buf=cStringIO.StringIO()
+        c.setopt(c.URL,get_search_service_classify_url())
+        query_condition = '{\
+          "query":{\
+            "filtered":{\
+              "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
+              "filter":{"range":{"level":{"gte":900,"lte":2000}}}\
+            }\
+          }\
+        }'
+#          "sort":{"publish_time":{"order":"desc"}}\
+#              "size":10,\
+        print query_condition
+       # date=get_day_befor_today_n_days(1)
+       # date_time=date+' 00:00:00'
+       # query_condition = '{\
+       #   "query":{
+       #     "filtered":{
+       #       "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
+       #       "filter":{"range":{"publish_time":{"gte":'+'"' + date_time +'"' +'}}},\
+       #       "sort":{"level":{"order":"desc"}}\
+       #       "size":10\
+       #     }\
+       #   }\
+       # }'
+        c.setopt(c.POSTFIELDS,query_condition)
+        c.setopt(c.WRITEFUNCTION, buf.write)
+        c.perform()
+        result = buf.getvalue()
+        result_dict = json.loads(result)
+        buf.close()
+        return_value=result_dict['hits']['hits'] 
+        tag_unicode = tag.decode('utf8')
+        for item in return_value:
+            item["_source"]["content"] = item["_source"]["content"].replace(tag_unicode,'<font color="red">'+tag_unicode+'</font>')
+            item["_source"]["title"] = item["_source"]["title"].replace(tag_unicode,'<font color="red">'+tag_unicode+'</font>')
+    except Exception,e:
+        print "get search result error:",e
+
+    #return all result
+    recommend=[]
+    return return_value, tag.decode('utf8')
+
+def get_day_befor_today_n_days(n):
+  today=datetime.date.today()
+  delta_day=datetime.timedelta(days=n)
+  result = today-delta_day
+  return result
