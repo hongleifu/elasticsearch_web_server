@@ -25,7 +25,7 @@ def service(query):
         c=pycurl.Curl()
         buf=cStringIO.StringIO()
         c.setopt(c.URL,get_search_service_base_url())
-        query_condition = '{"query": { "match": { "title": '+ '"'+query+'"'+' } },"size":15}'
+        query_condition = '{"query": { "match": { "title": '+ '"'+query+'"'+' } },"size":100}'
         c.setopt(c.POSTFIELDS,query_condition)
         c.setopt(c.WRITEFUNCTION, buf.write)
         c.perform()
@@ -73,19 +73,21 @@ def service_classify(tag):
         c=pycurl.Curl()
         buf=cStringIO.StringIO()
         c.setopt(c.URL,get_search_service_classify_url())
+       # query_condition = '{\
+       #   "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
+       #   "size":100,\
+       #   "sort":{"publish_time_str":{"order":"desc"}},\
+       #   "filter":{"range":{"level":{"gte":900,"lte":2000}}}\
+       # }'
+        date=get_day_befor_today_n_days(1)
+        date_time=(str)(date)+' 00:00:00'
         query_condition = '{\
-          "query":{\
-            "filtered":{\
-              "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
-              "filter":{"range":{"level":{"gte":900,"lte":2000}}}\
-            }\
-          }\
+          "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
+          "size":100,\
+          "sort":{"level":{"order":"desc"}},\
+          "filter":{"range":{"insert_time":{"gte":'+'"' + date_time +'"' +'}}}\
         }'
-#          "sort":{"publish_time":{"order":"desc"}}\
-#              "size":10,\
         print query_condition
-       # date=get_day_befor_today_n_days(1)
-       # date_time=date+' 00:00:00'
        # query_condition = '{\
        #   "query":{
        #     "filtered":{
