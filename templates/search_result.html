@@ -17,7 +17,7 @@
     <div id="search_result" style="text-align: left">
       {% if articles %} {% for article in articles %}
       <div>
-        <font size=3 color=blue> <a style="color: inherit; text-decoration: underline"
+        <font size=4 color=blue> <a style="color: inherit; text-decoration: underline"
           href="{{article['_source']['article_url']}}">{{article['_source']['title']|safe}}</a>
         </font>
       </div>
