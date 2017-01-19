@@ -57,8 +57,8 @@
               $('div.post-data').empty();
               var obj = data.result
               $.each(obj, function(i, val) {
-                var add = "<a href='" + val._source.url+"' target='blank'><h3>"
-                          + val._source.title + "</h3></a>";
+                var add = "<div style='margin-top:20px'> <font size=4 color=blue> <a href='" + val._source.url+"' target='blank' style='color: inherit; text-decoration: underline'>"
+                          + val._source.title + "</a> </font> </div> <div style='height: 40px; overflow: hidden; text-overflow: ellipsis'> <p>" + val._source.content + "</p> </div>";
                 $('div.post-data').append(add);
               });
           });
