@@ -79,8 +79,8 @@ def service_classify(tag):
        #   "sort":{"publish_time_str":{"order":"desc"}},\
        #   "filter":{"range":{"level":{"gte":900,"lte":2000}}}\
        # }'
-        date=get_day_befor_today_n_days(1)
-        date_time=(str)(date)+' 00:00:00'
+        date=get_day_befor_today_n_days(2)
+        date_time=(str)(date)
         query_condition = '{\
           "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
           "size":100,\
