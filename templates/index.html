@@ -73,10 +73,10 @@
         next: '下一页',
         last: '末页',
         onPageClick: function (evt, page) {
-            if (page == pageNo) {
-                console.debug("current page number clicked, do nothing.");
-                return;
-            }
+           // if (page == pageNo) {
+           //     console.debug("current page number clicked, do nothing.");
+           //     return;
+           // }
             var aActive = document.getElementById('ul_class_nav').getElementsByClassName('active');
             var tab_name = $(document.getElementById(aActive[0].id)).attr("name");
             $.getJSON('/tabs?tab='+tab_name+"&no="+page+"&size="+pageSize, {
