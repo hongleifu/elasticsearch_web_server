@@ -51,10 +51,13 @@ def searchpage():
 
 @app.route('/tabs', methods=['GET', 'POST'])
 def tabs():
-
+    page_no = int(request.args.get('no','1'))
+    page_size = int(request.args.get('size','10'))
+    start = (page_no - 1) * page_size
+    end = page_no * page_size
     query = request.args.get('tab', '')
-    result = mod_search.service_classify(query)
-    return jsonify(result = result[0])
+    result,tag = mod_search.service_classify(query)
+    return jsonify(result = result[start:end])
 
 @app.route('/login',methods=['GET','POST'])
 def login():
