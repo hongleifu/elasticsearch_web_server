@@ -18,11 +18,11 @@
       {% if articles %} {% for article in articles %}
       <div>
         <font size=4 color=blue> <a style="color: inherit; text-decoration: underline"
-          href="{{article['_source']['article_url']}}">{{article['_source']['title']|safe}}</a>
+          href="{{article['_source']['url']}}">{{article['_source']['title']|safe}}</a>
         </font>
       </div>
       <div style="height: 40px; overflow: hidden; text-overflow: ellipsis">
-        <a style="color: inherit" href="{{article['_source']['article_url']}}"><p>{{article['_source']['content']|safe}}</p></a>
+        <a style="color: inherit" href="{{article['_source']['url']}}"><p>{{article['_source']['content']|safe}}</p></a>
       </div>
       <div class="source-url">
         <a href="http://www.toutiao.com"> <img src="images/toutiao.png">今日头条</img>
