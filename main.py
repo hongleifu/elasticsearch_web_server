@@ -82,7 +82,6 @@ def tabs():
     end = page_no * page_size
     if len(result) < page_no * page_size:
       end=len(result)
-    print 'tag------',query
     #return jsonify(result = result[start:end])
     return render_template('index.html',result = result[start:end],tag=query,no=page_no, size=page_size,total_size=len(result))
 
