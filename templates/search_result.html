@@ -64,14 +64,7 @@
                         </div>
                     </div>
                     <div class="blk-2x"></div>
-                    <ul class="pagination">
-                        <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
+                    <ul id="page" class="pagination" maxshowpageitem="5" >
                     </ul>
                 </div>
                 {%if recommend_keyword %}
@@ -97,6 +90,32 @@
     </div>
     <script src="../lib/jquery-1.8.1.min.js "></script>
     <script src="../lib/bootstrap/js/bootstrap.min.js "></script>
+    <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+        var pageNo = {{no}};
+        var pageSize = {{size}};
+        var totalCount = {{total_size}};
+        var query = $('#search_input').val()
+        var totalPages = Math.ceil(totalCount/pageSize);
+    
+        $('.pagination').twbsPagination({
+            startPage: pageNo,
+            totalPages: totalPages,
+            first: '首页',
+            prev: '前一页',
+            next: '下一页',
+            last: '末页',
+            onPageClick: function (evt, page) {
+                if (page == pageNo) {
+                    console.debug("current page number clicked, do nothing.");
+                    return;
+                }
+                var url = "/searchpage?query=" + query + "&no=" + page + "&size=" + pageSize;
+                console.debug("pageurl:", url);
+                window.location.href = url;
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -33,14 +33,19 @@ def page_not_found(e):
 
 @app.route('/search', methods=['GET','POST'])
 def search():
+    no=1
     size = 10
     query_word=""
     if request.method == 'GET':
       query_word=request.args.get('query',"")    
+      no=request.args.get('no',"1")    
+      size=request.args.get('size',"10")    
     if request.method == 'POST':
       query_word=request.form.get('query',"")    
+      no=request.form.get('no',"1")    
+      size=request.form.get('size',"10")    
     model,query,recommend_keyword = mod_search.service(query_word)
-    return render_template('search_result.html', articles=model[:size], query=query, recommend_keyword=recommend_keyword, num=len(model), no=1, size=size, totalsize=len(model))
+    return render_template('search_result.html', articles=model[(int(no)-1)*int(size):int(size)], query=query, recommend_keyword=recommend_keyword, num=len(model), no=no, size=size, total_size=len(model))
     #return render_template('search_result.html', articles=model[:size], query=query, recommend_keyword=recommend_keyword, num=len(model), no=1, size=size, totalsize=len(model))
 
 @app.route('/searchpage', methods=['GET'])
@@ -52,9 +57,10 @@ def searchpage():
     query = request.args.get('query')
     model,query,recommend_keyword = mod_search.service(query)
     if model != None:
-        return render_template('search_result.html', articles=model[start:end], query=query, recommend_keyword=recommend_keyword, no=page_no, size=page_size, totalsize=len(model))
+        return render_template('search_result.html', articles=model[start:end], query=query, recommend_keyword=recommend_keyword, no=page_no, size=page_size, total_size=len(model))
     else:
-        return render_template('search_result.html', articles=model, query=query, recommend_keyword=recommend_keyword, no=page_no, size=0, totalsize=0)
+        print "no search result for query:",query
+        return render_template('search_result.html', articles=model, query=query, recommend_keyword=recommend_keyword, no=page_no, size=0, total_size=0)
 
 @app.route('/tabs', methods=['GET', 'POST'])
 def tabs():
@@ -73,7 +79,7 @@ def tabs():
     end = page_no * page_size
     result,tag = mod_search.service_classify(query)
     #return jsonify(result = result[start:end])
-    return render_template('index.html',result = result[start:end],tag=tag)
+    return render_template('index.html',result = result[start:end],tag=tag,no=page_no, size=page_size,total_size=len(result))
 
 @app.route('/login',methods=['GET','POST'])
 def login():

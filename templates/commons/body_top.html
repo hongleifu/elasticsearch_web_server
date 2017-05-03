@@ -121,14 +121,34 @@
 
     function search() {
         form_get("/search", {
-            "query" : document.getElementById("search_input").value
+            "query" : document.getElementById("search_input").value,
+            {% if no %}
+            "no" : {{no}},
+            {% else %}
+            "no" : 1,
+            {% endif %}
+            {% if size %}
+            "size" : {{size}}
+            {% else %}
+            "size" : 10
+            {% endif %}
         });
     }
 
     function search_key(word) {
         document.getElementById("search_input").value = word
         form_get("/search", {
-            "query" : document.getElementById("search_input").value
+            "query" : document.getElementById("search_input").value,
+            {% if no %}
+            "no" : {{no}},
+            {% else %}
+            "no" : 1,
+            {% endif %}
+            {% if size %}
+            "size" : {{size}}
+            {% else %}
+            "size" : 10
+            {% endif %}
         });
     }
 </script>
