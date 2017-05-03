@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="blk-2x"></div>
-                    <ul id="page" class="pagination" maxshowpageitem="5" >
+                    <ul id="page" class="pagination" >
                     </ul>
                 </div>
                 {%if recommend_keyword %}
@@ -95,26 +95,27 @@
         var pageNo = {{no}};
         var pageSize = {{size}};
         var totalCount = {{total_size}};
-        var query = $('#search_input').val()
+        var query = $('#search_input').val();
         var totalPages = Math.ceil(totalCount/pageSize);
-    
-        $('.pagination').twbsPagination({
-            startPage: pageNo,
-            totalPages: totalPages,
-            first: '首页',
-            prev: '前一页',
-            next: '下一页',
-            last: '末页',
-            onPageClick: function (evt, page) {
-                if (page == pageNo) {
-                    console.debug("current page number clicked, do nothing.");
-                    return;
+        if (totalCount>0){
+            $('.pagination').twbsPagination({
+                startPage: pageNo,
+                totalPages: totalPages,
+                first: '首页',
+                prev: '前一页',
+                next: '下一页',
+                last: '末页',
+                onPageClick: function (evt, page) {
+                    if (page == pageNo) {
+                        console.debug("current page number clicked, do nothing.");
+                        return;
+                    }
+                    var url = "/searchpage?query=" + query + "&no=" + page + "&size=" + pageSize;
+                    console.debug("pageurl:", url);
+                    window.location.href = url;
                 }
-                var url = "/searchpage?query=" + query + "&no=" + page + "&size=" + pageSize;
-                console.debug("pageurl:", url);
-                window.location.href = url;
-            }
-        });
+            });
+        }    
     </script>
 </body>
 

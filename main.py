@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, jsonify
+#coding:utf-8
+from flask import Flask, request, render_template, jsonify,redirect,url_for
 from modules import mod_search
 from modules import mod_login
 
@@ -7,17 +8,18 @@ from modules import mod_login
 app = Flask(__name__, static_url_path='')
 app.config['SECRET_KEY'] = 'super secret key'
 
-@app.route('/')
+@app.route('/',methods=['GET', 'POST'])
 def default():
-    model = [] 
-    return render_template('index.html', model=model)
+    return redirect(url_for('tabs'))
+    #model = [] 
+    #return render_template('index.html', model=model)
     #return render_template('index.html', model=model)
 
-@app.route('/index')
+@app.route('/index',methods=['GET', 'POST'])
 def index():
-    model = [] 
-    return render_template('index.html', model=model)
-    #return render_template('index.html', model=model)
+    return redirect(url_for('tabs'))
+   # model = [] 
+   # return render_template('index.html', model=model)
 
 @app.route('/error', methods=['GET', 'POST'])
 def error():
@@ -38,12 +40,12 @@ def search():
     query_word=""
     if request.method == 'GET':
       query_word=request.args.get('query',"")    
-      no=request.args.get('no',"1")    
-      size=request.args.get('size',"10")    
+      no=request.args.get('no',1)    
+      size=request.args.get('size',10)    
     if request.method == 'POST':
       query_word=request.form.get('query',"")    
-      no=request.form.get('no',"1")    
-      size=request.form.get('size',"10")    
+      no=request.form.get('no',1)    
+      size=request.form.get('size',10)    
     model,query,recommend_keyword = mod_search.service(query_word)
     return render_template('search_result.html', articles=model[(int(no)-1)*int(size):int(size)], query=query, recommend_keyword=recommend_keyword, num=len(model), no=no, size=size, total_size=len(model))
     #return render_template('search_result.html', articles=model[:size], query=query, recommend_keyword=recommend_keyword, num=len(model), no=1, size=size, totalsize=len(model))
@@ -68,18 +70,21 @@ def tabs():
     page_no=1
     page_size=10
     if request.method == 'GET':
-      page_no = int(request.args.get('no','1'))
-      page_size = int(request.args.get('size','10'))
-      query = request.args.get('tab', '')
+      page_no = int(request.args.get('no',1))
+      page_size = int(request.args.get('size',10))
+      query = request.args.get('tab', '法规速递'.decode('utf8'))
     else:
-      page_no = int(request.form.get('no','1'))
-      page_size = int(request.form.get('size','10'))
-      query = request.form.get('tab', '')
+      page_no = int(request.form.get('no',1))
+      page_size = int(request.form.get('size',10))
+      query = request.form.get('tab', '法规速递'.decode('utf8'))
     start = (page_no - 1) * page_size
-    end = page_no * page_size
     result,tag = mod_search.service_classify(query)
+    end = page_no * page_size
+    if len(result) < page_no * page_size:
+      end=len(result)
+    print 'tag------',query
     #return jsonify(result = result[start:end])
-    return render_template('index.html',result = result[start:end],tag=tag,no=page_no, size=page_size,total_size=len(result))
+    return render_template('index.html',result = result[start:end],tag=query,no=page_no, size=page_size,total_size=len(result))
 
 @app.route('/login',methods=['GET','POST'])
 def login():

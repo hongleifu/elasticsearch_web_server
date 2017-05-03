@@ -57,14 +57,7 @@
                         </div>
                     </div>
                     <div class="blk-2x"></div>
-                    <ul class="pagination">
-                        <li><a href="#" aria-label="Previous" class="disable"><span aria-hidden="true">上一页</span></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#" aria-label="next"><span aria-hidden="true">下一页</span></a></li>
+                    <ul id="tag_page" class="pagination">
                     </ul>
                 </div>
                 <div class="side-container">
@@ -91,7 +84,14 @@
       function getSearchClass(tab_param){
         pageNo=1;
         pageSize=10;
-
+        tag='';
+        
+        if (tab_param == 1) {
+          tag='法规速递';
+        }
+        if (tab_param == 2) {
+          tag='行业动态';
+        }
         var url = "/tabs?tab="+tab_param+"&no=" + pageNo + "&size=" + pageSize;
         console.debug("pageurl:", url);
         form_get("/tabs",{"tab":tab_param,"no":pageNo,"size":pageSize});
@@ -105,6 +105,34 @@
            clearAllClassInUl();
            document.getElementById("li_class_news").className="active";
         {%endif%}
+    </script>
+    <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+        var pageNo = {{no}};
+        var pageSize = {{size}};
+        var totalCount = {{total_size}};
+        var tab_param = '{{tag}}';
+        var query = $('#search_input').val();
+        var totalPages = Math.ceil(totalCount/pageSize);
+        if (totalCount > 0) {
+            $('.pagination').twbsPagination({
+                startPage: pageNo,
+                totalPages: totalPages,
+                first: '首页',
+                prev: '前一页',
+                next: '下一页',
+                last: '末页',
+                onPageClick: function (evt, page) {
+                    if (page == pageNo) {
+                        console.debug("current page number clicked, do nothing.");
+                        return;
+                    }
+                    var url = "/tabs?tab="+tab_param+"&no=" + page + "&size=" + pageSize;
+                    console.debug("pageurl:", url);
+                    window.location.href = url;
+                }
+            });
+        } 
     </script>
 </body>
 
