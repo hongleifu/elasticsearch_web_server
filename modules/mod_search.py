@@ -1,3 +1,4 @@
+#coding=utf-8
 import sys
 import pycurl
 import cStringIO
@@ -10,13 +11,15 @@ sys.path.append(sys.path[0])
 def get_search_service_base_url():
     return 'localhost:9200/finance/toutiao/_search?pretty'
 def get_recommend_service_base_url():
-    return "http://127.0.0.1:5200/recommend?"
+    return "http://jinrongdao.com:5200/recommend?"
 
 def get_search_service_classify_url():
-    return 'localhost:9200/finance/laws_article/_search?pretty'
+    #return 'localhost:9200/finance/laws_article/_search?pretty'
+    return 'localhost:9200/finance/_search?pretty'
 
 def service(query):
 
+    print "enter mod search"
     recommend_query=query
     query=query.encode('utf8')
     # get search result from search engine
@@ -42,11 +45,13 @@ def service(query):
         print "get search result error:",e
 
     
+    print "begin recommend"
     #get recommend result of key word  from recommend engine
     param_dict={}
     param_dict['query']=recommend_query.encode('utf8')
     param_dict['type']='key_word'
     url=get_recommend_service_base_url()+urllib.urlencode(param_dict)
+    print 'get recommend :',url
     recommend=[]
     try:
         print "word:",recommend_query," get recommend url",url
@@ -66,28 +71,33 @@ def service(query):
 #search for classified article
 def service_classify(tag):
     tag=tag.encode('utf8')
-
+    if tag=='1':
+      tag='法规速递'
+    if tag=='2':
+      tag='行业动态'
+    
     # get search result from search engine
     return_value=[]
     try:
         c=pycurl.Curl()
         buf=cStringIO.StringIO()
         c.setopt(c.URL,get_search_service_classify_url())
+        query_condition = '{\
+          "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
+          "size":1000,\
+          "sort":{"insert_time":{"order":"desc"}},\
+          "filter":{"range":{"level":{"gte":300,"lte":2000}}}\
+        }'
+
+       # date=get_day_befor_today_n_days(2)
+       # date_time=(str)(date)
        # query_condition = '{\
        #   "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
        #   "size":100,\
-       #   "sort":{"publish_time_str":{"order":"desc"}},\
-       #   "filter":{"range":{"level":{"gte":900,"lte":2000}}}\
+       #   "sort":{"level":{"order":"desc"}},\
+       #   "filter":{"range":{"insert_time":{"gte":'+'"' + date_time +'"' +'}}}\
        # }'
-        date=get_day_befor_today_n_days(2)
-        date_time=(str)(date)
-        query_condition = '{\
-          "query": { "match": { "tag": '+ '"'+tag+'"'+' } },\
-          "size":100,\
-          "sort":{"level":{"order":"desc"}},\
-          "filter":{"range":{"insert_time":{"gte":'+'"' + date_time +'"' +'}}}\
-        }'
-        print query_condition
+        print "search classify:",query_condition
        # query_condition = '{\
        #   "query":{
        #     "filtered":{
@@ -106,6 +116,7 @@ def service_classify(tag):
         buf.close()
         return_value=result_dict['hits']['hits'] 
         tag_unicode = tag.decode('utf8')
+        print "search result:",len(return_value)
         for item in return_value:
             item["_source"]["content"] = item["_source"]["content"].replace(tag_unicode,'<font color="red">'+tag_unicode+'</font>')
             item["_source"]["title"] = item["_source"]["title"].replace(tag_unicode,'<font color="red">'+tag_unicode+'</font>')

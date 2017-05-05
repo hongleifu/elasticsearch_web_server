@@ -82,8 +82,9 @@ def tabs():
     end = page_no * page_size
     if len(result) < page_no * page_size:
       end=len(result)
+    print "search result:",len(result),"start:",start,"end:",end
     #return jsonify(result = result[start:end])
-    return render_template('index.html',result = result[start:end],tag=query,no=page_no, size=page_size,total_size=len(result))
+    return render_template('index.html',result_list = result[start:end],tag=query,no=page_no, size=page_size,total_size=len(result))
 
 @app.route('/login',methods=['GET','POST'])
 def login():
