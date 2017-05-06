@@ -6,6 +6,9 @@ import json
 import urllib 
 import urllib2 
 import datetime
+import logging
+log_file="myapp.log"
+logging.basicConfig(filename = log_file, level = logging.DEBUG)
 sys.path.append(sys.path[0])
 
 def get_search_service_base_url():
@@ -18,8 +21,8 @@ def get_search_service_classify_url():
     return 'localhost:9200/finance/_search?pretty'
 
 def service(query):
-
     print "enter mod search"
+    logging.info("enter mod search")
     recommend_query=query
     query=query.encode('utf8')
     # get search result from search engine
@@ -46,23 +49,26 @@ def service(query):
 
     
     print "begin recommend"
+    logging.info("begin recommend")
     #get recommend result of key word  from recommend engine
     param_dict={}
     param_dict['query']=recommend_query.encode('utf8')
     param_dict['type']='key_word'
+    logging.info("param_dict")
     url=get_recommend_service_base_url()+urllib.urlencode(param_dict)
+    logging.info("url:"+url)
     print 'get recommend :',url
     recommend=[]
     try:
-        print "word:",recommend_query," get recommend url",url
         req=urllib2.Request(url)
         res_data=urllib2.urlopen(req)
         res=res_data.read()
         res=res.decode('utf8')
-        print " recommend result:",res
         result_dict_recommend = json.loads(res)
         recommend=result_dict_recommend['data']
+        logging.info("get result :"+url)
     except Exception,e:
+        logging.info("exception"+str(e))
         print "get recommend of keyword result error:",e
 
     #return all result
