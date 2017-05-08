@@ -389,6 +389,7 @@ a img, img { border: none; }
 .right-control em, .right-control i { font-style: normal; }
 .right-control i { position: relative; top: 1px; padding-right: 5px; font-size: 14px; }
 .right-control span.active a { color: #e83308; }
+.right-control span.like-num {width:50px;display:inline-block;}
 .panel-border { border: 1px solid #eee; }
 .box-sm.center { }
 .box-sm { padding: 0 50px; width: 360px; background: #fff\9; background: rgba(255, 255, 255, .8); }
@@ -594,7 +595,7 @@ button { border: none; cursor: pointer; }
 .btn.disabled, .text.disabled { opacity: .5 !important; cursor: text; }
 .btn-apply { border: 1px solid #e83308; background: #e83308; }
 .btn-apply:focus, .btn-apply:hover { border: 1px solid #cc2f16; background: #cc2f16; }
-
+.btn.disabled,.btn[disabled]{opacity: .65 !important; background: #ccc !important;cursor:not-allowed;}
 /*---------------------
     6. dropmenu
 -----------------------*/
@@ -1047,7 +1048,7 @@ color: #A89D89; }
 -----------------------*/
 .community-header { position: relative; background: #fff; padding: 30px; }
 .community-header .img { position: relative; float: left; width: 100px; height: 78px; }
-.community-header .img img { width: 100%; }
+.community-header .img img { width: 100%; max-height: 78px; }
 .community-header .img.im a:hover:after { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(145, 112, 73, .8); content: ""; }
 .community-header .img.im a:hover:before { display: block; position: absolute; top: 0; z-index: 101; width: 100%; text-align: center; font-size: 1.6rem; font-weight: normal; line-height: 78px; content: "\e906"; font-family: 'iconfont' !important; color: #fff; cursor: pointer; }
 .community-header .content { overflow: hidden; padding-left: 20px; }
@@ -1072,7 +1073,7 @@ color: #A89D89; }
 .community-block .block-bar .span b { display: block; color: #917049; letter-spacing: 1px; }
 .community-block .block-bar .span:first-child:after { display: inline-block; position: absolute; top: 5px; right: 0; height: 24px; width: 1px; background: #ededed; content: "" }
 .community-block .img { float: left; width: 100px; height: 78px; }
-.community-block .img img { width: 100%; }
+.community-block .img img { width: 100%; max-height: 78px; }
 .community-block .content { overflow: hidden; padding-left: 10px; }
 .community-block .content h4 { font-weight: normal; margin: 3px 0; }
 .community-block .content h4 a { color: #917049 }
@@ -1088,7 +1089,7 @@ color: #A89D89; }
 .media-content.post-list .photo { position: relative; top: 5px; float: left; width: 60px; }
 .media-content.post-list .photo img { width: 60px !important; height: 60px; border: 1px solid #eee; border-radius: 50%; }
 .post-list { }
-.post-list .item { padding: 10px 0 10px 30px; border-bottom: 1px solid #ededed; }
+.post-list .item { position: relative; padding: 10px 0 10px 30px; border-bottom: 1px solid #ededed; }
 .post-list .item .content .item { padding: 0; border: 0; }
 .post-list .photo { position: relative; top: 5px; float: left; width: 30px; }
 .post-list .photo img { width: 30px !important; height: 30px; border: 1px solid #eee; border-radius: 50%; }
@@ -1096,11 +1097,11 @@ color: #A89D89; }
 .post-list .block-bar a { color: #A89D89 }
 .post-list .block-bar a:hover { color: #B69364 }
 .post-list .block-bar .like { position: relative; top: -2px; }
-.post-list .block-bar .like i { font-size: 1.6rem; position: relative; top: 2px; }
+.post-list .block-bar .like i { font-size: 1.6rem; position: relative; top: 2px;}
 .post-list .block-bar.action { height: 20px; line-height: 20px; }
 .post-list .block-bar.action .drop-toggle { padding-left: 10px; }
 .post-list .block-bar.action .drop-toggle i { position: relative; top: 1px; }
-.post-list .content { overflow: hidden; padding-left: 10px; }
+.post-list .content { overflow: hidden; padding-left: 10px; position:relative; }
 .post-list .content p { padding: 0 0; font-size: 1.3rem; line-height: 1.6; }
 .post-list.on-user .item { padding: 10px 0; }
 .post-list.on-user .photo { display: inline-block; position: relative; top: 5px; float: none; width: 20px; height: 20px; margin-right: 5px; }
@@ -1127,7 +1128,7 @@ color: #A89D89; }
 .my-list.media-content .content { padding: 0; }
 .community .item { padding: 15px 0; border-bottom: 1px solid #ededed }
 .community .img { position: relative; top: 8px; float: left; width: 100px; height: 78px; }
-.community .img img { width: 100%; }
+.community .img img { width: 100%; max-height: 78px; }
 .community .content { overflow: hidden; padding-left: 20px; }
 .community .content h4 { font-weight: normal; margin: 3px 0; font-size: 1.6rem; }
 .community .content h4, .community-header .content h4 a { color: #917049 }
@@ -1147,7 +1148,7 @@ color: #A89D89; }
 .user-list .item { padding: 15px 0; border-bottom: 1px solid #ededed }
 .user-list .img { position: relative; top: 0px; float: left; width: 50px; height: 50px; }
 .user-list .img img { width: 100%; border: 1px solid #eee; border-radius: 50%; }
-.user-list .content { overflow: hidden; padding-left: 20px; }
+.user-list .content { overflow: hidden; padding-left: 20px;}
 .user-list .content h4 { font-weight: normal; margin: 3px 0; font-size: 1.6rem; }
 .user-list .content h4, .user-list .content h4 a { color: #917049 }
 .user-list .content h4, .user-list .content h4 a { color: #917049 }
@@ -1192,18 +1193,19 @@ color: #A89D89; }
 .friend-list li { list-style: none; padding: 5px 10px 5px 30px; cursor: pointer; }
 .friend-list li:hover { background: #f7f7f7; }
 .friend-list li.active { background: #ededed; }
-.friend-list li>span:first-child { display: inline-block; width: 40px; height: 40px; margin-right: 10px; vertical-align: middle; }
+.friend-list li>span:first-child { float: left; display: inline-block; width: 40px; height: 40px; margin-right: 10px; vertical-align: middle; }
 .friend-list li>span img { display: block; width: 100%; border-radius: 50%; }
+.friend-list li>span+span{ display: block; overflow: hidden; text-overflow:ellipsis; white-space: nowrap; width: 100px; height: 40px; line-height: 40px;}
 .chat { height: 472px; }
 .chat ul { position: relative; padding: 0 30px; }
-.chat li { list-style: none; position: relative; font-size: 0; margin-bottom: 10px; padding-left: 60px; font-size: 1.4rem; text-align: justify; }
+.chat li { list-style: none; position: relative; font-size: 0; margin-bottom: 20px; padding-left: 60px; font-size: 1.4rem; text-align: justify; }
 .chat .chat-user { position: absolute; left: 3px; right: auto; }
 .chat .chat-user img { width: 40px; height: 40px; border-radius: 50%; }
-.chat .chat-content { position: relative; line-height: 22px; margin-top: 25px; padding: 8px 15px; background-color: #eee; border-radius: 3px; color: #333; word-break: break-all; }
+.chat .chat-content {display: inline-block; position: relative; line-height: 22px; padding: 8px 15px; background-color: #eee; border-radius: 3px; color: #333; word-break: break-all; }
 .chat .chat-content:after { content: ''; position: absolute; left: -10px; top: 13px; width: 0; height: 0; border-style: solid dashed dashed; border-color: #eee transparent transparent; overflow: hidden; border-width: 10px; }
-.chat .chat-mine { padding-left: 0; padding-right: 60px; position: relative; margin-bottom: 10px; }
+.chat .chat-mine { padding-left: 0; padding-right: 60px; position: relative;  text-align: right; }
 .chat .chat-mine .chat-user { left: auto; right: 3px; }
-.chat .chat-mine .chat-content { background-color: #b69364; color: #fff; }
+.chat .chat-mine .chat-content { background-color: #b69364; color: #fff; text-align: left; }
 .chat .chat-mine .chat-content:after { left: auto; right: -10px; border-top-color: #b69364; }
 .chat-date { text-align: center; background: #f7f7f7; height: 30px; line-height: 30px; color: #b69364 }
 .chat-footer { border-top: 1px solid #eee; }
@@ -1261,3 +1263,4 @@ color: #A89D89; }
     top: 15px;
     right: -40px;
 }
+.best-like{ background: url(../images/best-like.png);background-size: 80px 80px; width: 80px; height: 80px; position: absolute;  right: 5%; bottom:20px;z-index:1000; }

@@ -38,7 +38,7 @@
                             {% for result in result_list  %}
                             <div class="item">
                                 <div class="photo">
-                                    <a href="user_info.html"><img src="../images/photo.png"></a>
+                                    <a href="#"><img src="../images/photo.png"></a>
                                 </div>
                                 <div class="content">
                                     <h4><a href="{{result._source.url}}">{{result._source.title}}</a></h4>
@@ -98,10 +98,10 @@
       } 
     </script>
     <script type="text/javascript">
-        {%if tag==1%}
+        {%if tag=='法规速递' or tag=='1' %}
            clearAllClassInUl();
            document.getElementById("li_class_law").className="active";
-        {%elif tag==2%}
+        {%elif tag=='行业动态' or tag=='2'  %}
            clearAllClassInUl();
            document.getElementById("li_class_news").className="active";
         {%endif%}
