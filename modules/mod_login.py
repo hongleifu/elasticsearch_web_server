@@ -61,9 +61,3 @@ def service(request):
         print "get search result error:", e
     recommend['data'] = return_value
     return model, return_value
-  # user = mysqldb.User.query.filter_by(name=name,password=password).first()
- # if user is not None:
- # 	session['userinfo'] = {'name':user.name, 'id':user.id}
- # 	model['ret'] = True
- # else:
- # 	model['ret'] = False

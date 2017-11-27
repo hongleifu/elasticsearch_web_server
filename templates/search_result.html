@@ -11,50 +11,38 @@
 
 <body>
     {% include "commons/body_top.html" %}
-    <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
-            <div class="blk-2x"></div>
-            <!--
-            <div class="divider solid "></div>
-            <div class="cards md" >
-                <ul class="base-tab" id="search_class_ul">
-                    <li  id="li_class_law">
-                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(1)">法规速递
-                        </a>
-                    </li>
-                    <li  id="li_class_news">
-                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(2)">行业动态
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            -->
-            <div class="blk-2x"></div>
-            <div class="cards md">
+            <div class="cards page">
                 <div class="mian-container">
-                    <div class="blk-2x"></div>
                     <div class="section">
                         <div class="media-content post-list">
                             {% for article in articles  %}
                             <div class="item">
-                                <!--
-                                <div class="photo">
-                                    <a href="user_info.html"><img src="../images/photo.png"></a>
-                                </div>
-                                -->
                                 <div class="content">
-                                    <h4><a href="{{article['_source']['url']}}">{{article['_source']['title']|safe}}</a></h4>
-                                    <p style="height: 40px; overflow: hidden; text-overflow: ellipsis" >{{article['_source']['content']|safe}}</p>
+                                    <h4><a href="{{article['_source']['url']}}" target="_blank">{{article['_source']['title']|safe}}</a></h4>
+                                    <p style="height: 39px; overflow: hidden; text-overflow: ellipsis" >{{article['_source']['content']|safe}}</p>
+                                    {% if article['_source']['imgs'] %}
+                                        <ul>
+                                            {% for img in article['_source']['imgs']%}
+                                                <li>
+                                                    <img src="{{img}}">
+                                                </li>
+                                             {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                     <div class="block-bar">
                                         {% if article['_source']['source_url']  %}
                                         <span><a href="#">{{article['_source']['source_url']}}</a></span>
                                         {% else %}
-                                        <span><a href="#">头条</a></span>
+                                        <span>{{article['_source']['publish_time_str']|safe}}</span>
+                                        {% if article['_source']['author'] %}
+                                            <span>{{article['_source']['author']|safe}}</span>
+                                        {% endif %}
                                         {% endif %}
                                         <div class="control-right">
                                             <div class="row-1x">
-                                                <div class="group-span-1x"><span>2007-04-15 {{article['_source']['insert_time']|safe}}</span><span>来自：<a href="#">{{article['_source']['source']|safe}}</a></span><span><a href="#"><em>评论</em></a><b>36</b></span></div>
+                                                <div class="group-span-1x"><span>来自：<a href="#">{{article['_source']['source_site_name']|safe}}</a></span><span></span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -67,21 +55,37 @@
                     <ul id="page" class="pagination" >
                     </ul>
                 </div>
-                {%if recommend_keyword %}
                 <div class="side-container">
-                    <div class="section heading">相关搜索</div>
-                    <div class="blk-1x"></div>
-                    <div class="community-block">
+                    {%if recommend_keyword %}
+                    <div class="section heading"><h4>相关搜索</h4></div>
+                   <ul class="list md">
                         {% for data in recommend_keyword%}
-                        <div class="content">
-                            <a href="http://jinrongdao.com:5100/search?query={{data}}"><p>{{data}}</p>
-                        </div>
+                        <li>
+                            <a href="http://jinrongdao.creditease.cn/search?query={{data}}"><p>{{data}}</p>
+                        </li>
                         <div class="blk-1x"></div>
                         {% endfor %}
+                   
+                    {% endif %}
+                    {% if adverses and adverses[0] %}
+                    <div class="section heading"><h4>推广</h4></div>
+                    <div class="row">
+                        {% for adverse in adverses %}
+                        <div class="col-md-6">
+                            <div class="card-image">
+                                <div class="img">
+                                    <a href="{{adverse['targetUrl']}}" onclick="click_adverse({{adverse['id']}},'{{query}}')" target="_blank"><img src="{{adverse['imgUrl']}}"></a>
+                                </div>
+                                <div class="card-title">
+                                    <a href="{{adverse['targetUrl']}}" onclick="click_adverse({{adverse['id']}},'{{query}}')" target="_blank">{{adverse['adverseDescribe']}}</a>
+                                </div>
+                                <div class="card-content"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
+                    {% endif %}
                 </div>
-                {%endif%}
-            </div>
             <div class="divider solid "></div>
         </div>
     </div>
@@ -115,7 +119,24 @@
                     window.location.href = url;
                 }
             });
-        }    
+        }
+        function click_adverse(id,query) {
+          var data={};
+          data['id']=id;
+          data['query']=query;
+          $.ajax({
+            type:'POST',
+            url:'/click_adverse',
+            dataType:'json',
+            data:data,
+            success:function(data){
+            },
+            error:function(xhr,type) {
+              alert('save click adverse exception');
+            } 
+          });
+          return false;
+        } 
     </script>
 </body>
 

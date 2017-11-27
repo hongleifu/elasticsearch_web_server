@@ -14,40 +14,57 @@
     <div class="divider solid "></div>
     <div id="body ">
         <div class="container ">
-            <div class="blk-2x"></div>
-            <div class="divider solid "></div>
-            <div class="cards md" >
-                <ul class="base-tab" id="search_class_ul">
-                    <li  id="li_class_law">
-                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(1)">法规速递
+       
+                <ul class="base-tab tab-nav" id="search_class_ul">
+                    <li  id="li_class_all">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(0)">首页
                         </a>
                     </li>
+                    <li  id="li_class_stock">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(3)">股票
+                        </a>
+                    </li>
+                    <!--
+                    <li  id="li_class_law">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(1)">法规
+                        </a>
+                    </li>
+                    -->
                     <li  id="li_class_news">
-                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(2)">行业动态
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(2)">行业
+                        </a>
+                    </li>
+                    <li  id="li_class_house">
+                        <a href="javascript:void(0)" data-toggle="tab" onclick="getSearchClass(4)">房产
                         </a>
                     </li>
                 </ul>
-            </div>
-
-            <div class="blk-2x"></div>
-            <div class="cards md">
+            <div class="cards page">
                 <div class="mian-container">
-                    <div class="blk-2x"></div>
                     <div class="section">
                         <div class="media-content post-list">
                             {% for result in result_list  %}
                             <div class="item">
-                                <div class="photo">
-                                    <a href="#"><img src="../images/img20.jpg"></a>
-                                </div>
                                 <div class="content">
-                                    <h4><a href="{{result._source.url}}">{{result._source.title}}</a></h4>
+                                    <h4><a href="{{result._source.url}}" target="_blank">{{result._source._id}}{{result._source.title}}</a></h4>
                                     <p>{{result._source.content}}</p>
+                                    {% if result._source.imgs %}
+                                        <ul>
+                                            {% for img in result._source.imgs%}
+                                                <li>
+                                                    <img src="{{img}}">
+                                                </li>
+                                             {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                     <div class="block-bar">
-                                        <span><a href="#">景玺龙</a></span>
+                                        <span>{{result._source.publish_time_str}}</span>
+                                        {% if result['_source']['author'] %}
+                                            <span>{{result['_source']['author']|safe}}</span>
+                                        {% endif %}
                                         <div class="control-right">
                                             <div class="row-1x">
-                                                <div class="group-span-1x"><span>{{result._source.publishtime}}</span><span>来自：<a href="#">{{result._source.source}}</a></span><span><a href="#"><em>评论</em></a><b>36</b></span></div>
+                                                <div class="group-span-1x"><span></span><span>来自：<a href="#">{{result._source.source_site_name}}</a></span><span><a href="#"><em></em></a><b></b></span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -61,14 +78,16 @@
                     </ul>
                 </div>
                 <div class="side-container">
-                    <div class="section heading">推荐阅读</div>
+                    <!--
+                    <div class="section heading"><h4>  </h4></div>
                     <div class="blk-1x"></div>
+                    -->
                 </div>
             </div>
-            <div class="divider solid "></div>
+
         </div>
     </div>
-    <div id="footer ">
+    <div id="footer">
         <div class="copyright">CreditEase© 京ICP备12016237号-1 版权所有 普信恒业科技发展(北京)有限公司</div>
     </div>
     <script src="../lib/jquery-1.8.1.min.js "></script>
@@ -86,11 +105,20 @@
         pageSize=10;
         tag='';
         
+        if (tab_param == 0) {
+          tag='首页';
+        }
         if (tab_param == 1) {
           tag='法规速递';
         }
         if (tab_param == 2) {
           tag='行业动态';
+        }
+        if (tab_param == 3) {
+          tag='股票';
+        }
+        if (tab_param == 4) {
+          tag='房产';
         }
         var url = "/tabs?tab="+tab_param+"&no=" + pageNo + "&size=" + pageSize;
         console.debug("pageurl:", url);
@@ -98,12 +126,21 @@
       } 
     </script>
     <script type="text/javascript">
-        {%if tag=='法规速递' or tag=='1' %}
+        {%if tag=='首页' or tag=='0' %}
+           clearAllClassInUl();
+           document.getElementById("li_class_all").className="active";
+        {%elif tag=='法规' or tag=='1' %}
            clearAllClassInUl();
            document.getElementById("li_class_law").className="active";
-        {%elif tag=='行业动态' or tag=='2'  %}
+        {%elif tag=='行业' or tag=='2'  %}
            clearAllClassInUl();
            document.getElementById("li_class_news").className="active";
+        {%elif tag=='股票' or tag=='3'  %}
+           clearAllClassInUl();
+           document.getElementById("li_class_stock").className="active";
+        {%elif tag=='房产' or tag=='4'  %}
+           clearAllClassInUl();
+           document.getElementById("li_class_house").className="active";
         {%endif%}
     </script>
     <script src="lib/jquery.twbsPagination.min.js" type="text/javascript"></script>
@@ -132,7 +169,52 @@
                     window.location.href = url;
                 }
             });
-        } 
+        }
+
+//展开、收起
+        (function($) {
+                $.fn.moreText = function(options) {
+                    var defaults = {
+                        maxLength: 50,
+                        mainCell: "p",
+                        openBtn: '查看全部',
+                        closeBtn: '收起'
+                    }
+                    return this.each(function() {
+                        var _this = $(this);
+                        var opts = $.extend({}, defaults, options);
+                        var maxLength = opts.maxLength;
+                        var TextBox = $(opts.mainCell, _this);
+                        var openBtn = opts.openBtn;
+                        var closeBtn = opts.closeBtn;
+                        var countText = TextBox.html();
+                        var newHtml = '';
+                        if (countText.length > maxLength) {
+                            newHtml = countText.substring(0, maxLength) + '...<a class="text-more">' + openBtn + '</a>';
+                        } else {
+                            newHtml = countText;
+                        }
+                        TextBox.html(newHtml);
+                        TextBox.on("click", ".text-more", function() {
+                            if ($(this).text() == openBtn) {
+                                TextBox.html(countText + ' <a class="text-more">' + closeBtn + '</a>');
+                            } else {
+                                TextBox.html(newHtml);
+                            }
+                        })
+                    })
+                }
+            }
+        )(jQuery);
+        $(function() {
+                $(".post-list>.item>.content").moreText({
+                        maxLength: 140,
+                        mainCell: 'p'
+                    }
+                );
+            }
+        )
+
     </script>
 </body>
 
