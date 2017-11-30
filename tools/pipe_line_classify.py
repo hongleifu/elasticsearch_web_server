@@ -12,8 +12,8 @@ def pipe_line_classify(id_begin,id_end):
   #classify and sort
   print 'now begin class and fill level-----------------',id_begin,id_end
   if id_begin != 0 and id_end != 0:
-    #cmd='cd /data/yx/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+time_begin+' '+time_update+' ' +' > log.txt'
-    cmd='cd /data/yx/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+str(id_begin)+' ' + str(id_end) +'  > log.txt'
+    #cmd='cd /unknown/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+time_begin+' '+time_update+' ' +' > log.txt'
+    cmd='cd /unknown/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+str(id_begin)+' ' + str(id_end) +'  > log.txt'
     print ' classify cmd is :',cmd
     os.system(cmd)
   else:

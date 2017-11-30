@@ -1,5 +1,5 @@
 线上部署:
-1.把整个工程拷贝到39\40的/data/yx/svr/finance_one/ 目录下的search_new 目录中
+1.把整个工程拷贝到39\40的/unknown/svr/finance_one/ 目录下的search_new 目录中
 2.修改modules/mod_public_config.py文件中的:
   get_search_service_base_url() 函数为:
       return 'http://10.120.66.39:9200/finance/_search?pretty'

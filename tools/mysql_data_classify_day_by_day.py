@@ -24,7 +24,7 @@ def classify_day_by_day(begin_date, days,table_name,id_column_name,time_column_n
     if id_begin == 0 or id_end == 0:
       print ' error id_begin or id_end'
       continue
-    cmd='cd /data/yx/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+str(id_begin)+' ' + str(id_end) +'  > log.txt'
+    cmd='cd /unknown/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+str(id_begin)+' ' + str(id_end) +'  > log.txt'
     print ' classify cmd is :',cmd
     os.system(cmd)
   cnn.close()

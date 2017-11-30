@@ -35,8 +35,8 @@ def pipe_line(time_file):
   #classify and sort
   print 'now begin class and fill level-----------------',id_begin,id_end,time_begin,time_update
   if id_begin != 0 and id_end != 0:
-    #cmd='cd /data/yx/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+time_begin+' '+time_update+' ' +' > log.txt'
-    cmd='cd /data/yx/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+str(id_begin)+' ' + str(id_end) +'  > log.txt'
+    #cmd='cd /unknown/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+time_begin+' '+time_update+' ' +' > log.txt'
+    cmd='cd /unknown/svr/finance_one/tools/machine_learning/program/ && /bin/bash run.sh '+str(id_begin)+' ' + str(id_end) +'  > log.txt'
     print ' classify cmd is :',cmd
     os.system(cmd)
   else:
@@ -48,10 +48,10 @@ def pipe_line(time_file):
   print 'now begin index data-----------------',id_begin
   #if time_update != None:
   if id_begin != 0 and id_end != 0:
-    cmd_copy=' cp ./mysql_article_index.sh /data/yx/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/'
+    cmd_copy=' cp ./mysql_article_index.sh /unknown/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/'
     os.system(cmd_copy)
 
-    cmd='/data/yx/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/mysql_article_index.sh '+ str(id_begin) + ' ' + str(id_end)
+    cmd='/unknown/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/mysql_article_index.sh '+ str(id_begin) + ' ' + str(id_end)
     os.system(cmd)
   else:
     print 'no new data update!'
@@ -59,4 +59,4 @@ def pipe_line(time_file):
   print "all pipe succ!",time_begin,time_update,id_begin,id_end
 
 if __name__=='__main__':
-  pipe_line('/data/yx/svr/finance_one/search_web_server/tools/time')
+  pipe_line('/unknown/svr/finance_one/search_web_server/tools/time')

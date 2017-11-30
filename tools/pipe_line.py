@@ -62,11 +62,11 @@ def pipe_line(time_file_list,db_list,table_list,url_index_list):
   #index these data
   print time_format.cur_time(),'begin index data-----------------',id_begin,id_end
   if id_begin != 0 and id_end != 0:
-    cmd_copy=' cp ./mysql_article_index.sh /data/yx/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/'
+    cmd_copy=' cp ./mysql_article_index.sh /unknown/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/'
     os.system(cmd_copy)
     print time_format.cur_time(),cmd_copy
 
-    cmd_index='cd /data/yx/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/ && ./mysql_article_index.sh '+ str(id_begin)+ ' ' + str(id_end)
+    cmd_index='cd /unknown/svr/finance_one/tools/elasticsearch-jdbc-2.3.4-2.0/bin/ && ./mysql_article_index.sh '+ str(id_begin)+ ' ' + str(id_end)
     #cmd_index='cd /Users/fuhonglei/Work/elastic_search_jdbc/elasticsearch-jdbc-2.3.4.0/bin/ && ./mysql_article_index.sh '+ str(id_begin)+ ' ' + str(id_end)
     os.system(cmd_index)
     print time_format.cur_time(),cmd_index
@@ -78,9 +78,9 @@ def pipe_line(time_file_list,db_list,table_list,url_index_list):
   print time_format.cur_time(),"all pipe finish!",time_begin,time_update,id_begin,id_end
 
 if __name__=='__main__':
-  time_file_list=['/data/yx/svr/finance_one/search_web_server/data/crawler_time','/data/yx/svr/finance_one/search_web_server/data/crawler_finance_time']
+  time_file_list=['/unknown/svr/finance_one/search_web_server/data/crawler_time','/unknown/svr/finance_one/search_web_server/data/crawler_finance_time']
   db_list=['crawler','crawler_finance']
   table_list=['laws_article','finance_news_article']
   url_index_list=[15,18]
-  #'/data/yx/svr/finance_one/search_web_server/data/time'
+  #'/unknown/svr/finance_one/search_web_server/data/time'
   pipe_line(time_file_list,db_list,table_list,url_index_list)
