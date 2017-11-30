@@ -10,12 +10,12 @@
 5.启动服务:nohup /usr/local/python/bin/python  main.py --search_web_server > search_web_server.log 2>&1 &
 
 本地部署：
-1.grep jinrongdao.creditease.cn ./ -r,把所有搜索相关的域名加上5100端口，社区相关的加上6100端口
+1.grep jinrongdao.unknown.cn ./ -r,把所有搜索相关的域名加上5100端口，社区相关的加上6100端口
 2.修改 /etc/hosts 文件，加上映射：
-  127.0.0.1       jinrongdao.creditease.cn  
-  127.0.0.1       social.jinrongdao.creditease.cn  
+  127.0.0.1       jinrongdao.unknown.cn  
+  127.0.0.1       social.jinrongdao.unknown.cn  
 3.pyhton main.py 启动
-4. 在浏览器输入jinrongdao.creditease.cn:5100测试效果
+4. 在浏览器输入jinrongdao.unknown.cn:5100测试效果
 
 # elasticsearch_web_server
 a www server for accept search request, and then get data from search engine, show it to user
